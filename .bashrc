@@ -76,3 +76,4 @@ alias uranos='ssh renichie.hopto.org -l bernd -i ~/.ssh/uranos'
 #scps
 alias scip='scp -i ~/.ssh/cip'
 alias sd='sudo shutdown now'
+alias python='python3'

@@ -10,7 +10,8 @@ set si "setzt smart indent
 
 set noswapfile
 
-noremap ö l
+"noremap ö l
+noremap ; l
 noremap l k
 noremap k j
 noremap j h
