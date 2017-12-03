@@ -48,7 +48,7 @@ bindsym $mod+p exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# change focus
+# change focu
 bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
@@ -139,18 +139,35 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec i3-msg exit
 
-#shutdown
-
-
-
-
 # locks the session
 bindsym $mod+Ctrl+l exec xlock
 
 #own additions
 #bindcode $mod+15 release workspace back_and_forth
 #bindsym $mod+tab workspace back_and_forth
-bindsym $mod+q workspace back_and_forth
+#bindsym $mod+q workspace back_and_forth
+bindsym $mod+0xff09 workspace back_and_forth
+
+#toggles between us and de keyboard layout
+#bindsym Ctrl+0x20 exec bash ~/configs/toggle_keyboard_layout.sh
+bindsym Ctrl+0x20 exec "(setxkbmap -query | grep -q \\"layout:\s\+us\\") && setxkbmap de || setxkbmap us"
+
+#volume control
+#works only with amixer on system
+bindsym $mod+0x3d exec "amixer -D pulse sset Master 2%+" 
+bindsym $mod+Shift+0x3d exec "amixer -D pulse sset Master 10%+" 
+bindsym $mod+0x2d exec "amixer -D pulse sset Master 2%-"
+bindsym $mod+Shift+0x2d exec "amixer -D pulse sset Master 10%-"
+
+#for keyboard-layout de
+bindsym $mod+0xfe51 exec "amixer -D pulse sset Master 2%+" 
+bindsym $mod+Shift+0xfe51 exec "amixer -D pulse sset Master 10%+" 
+bindsym $mod+0xdf exec "amixer -D pulse sset Master 2%-" 
+bindsym $mod+Shift+0xdf exec "amixer -D pulse sset Master 10%-" 
+
+#shutdown cmds
+bindsym $mod+Shift+0xff08 exec "shutdown now"
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
