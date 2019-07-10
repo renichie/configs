@@ -1,5 +1,3 @@
-#Inspiration: https://www.nickjames.ca/my-environment-my-powershell-profile/
-
 #############################################################################################################################
 # Prompt
 Import-Module Posh-Git
@@ -33,8 +31,7 @@ function prompt {
     }
     ' '
 }
- 
- 
+
 # Readline options
 ## Tab completion
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
@@ -65,12 +62,13 @@ Set-PSReadlineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit
 
 
 ######################################## ALIASES #######################################
-function home() { $prev = pwd; $loc = "$HOME"; set-location $loc; write-output "$prev --> $loc"}
 set-alias 	which 	get-command
 set-alias 	grep 	Select-string
-set-alias 	find	get-childitem		
+set-alias 	find	get-childitem
 set-alias 	run 	Invoke-History
 set-alias	hs		get-history
+set-alias	be		zambe
+set-alias	fe		zamfe
 #set-alias	-Name 'dps'	-Value 'docker ps' 
 # Aliases
 function 	ll 			{ Get-ChildItem -Force $args }
@@ -80,15 +78,16 @@ function	configs()	{ $prev = pwd; $loc = "$HOME\workspace\configs\"; set-locatio
 
 
 ######################################### navigation ###########################################
-function 	home2()	{$prev = "$HOME/Desktop/home/"; $loc = "$HOME\workspace\zax-backend\rest\"; set-location $loc; echo "$prev --> $loc"} 
+function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output "$prev --> $loc"}
+function 	home2()	{ $prev = pwd; $loc = "$HOME\workspace\zax-backend\rest\"; set-location $loc; echo "$prev --> $loc"} 
 
 #============================== docker/ZAx specific aliases ============================
-#mvn clean package -P docker-image 
-function	go()	{ $cmd = "mvn"; $prms = "clean package -P docker-image"; write-output "Invoking `"$cmd $prms`""; Invoke-Expression "$cmd $prms" }
-function 	be()	{ $prev = pwd; $loc = "$HOME\workspace\zax-backend\rest\"; set-location $loc; echo "$prev --> $loc"}
-function 	fe()	{ $prev = pwd; $loc = "$HOME\workspace\zax-frontend\"; set-location $loc; echo "$prev --> $loc"}
-function 	zambe()	{ $prev = pwd; $loc = "$HOME\workspace\zam-backend\"; set-location $loc; echo "$prev --> $loc"}
-function 	zamfe()	{ $prev = pwd; $loc = "$HOME\workspace\zam-frontend\"; set-location $loc; echo "$prev --> $loc"}
+function	go()	{ $cmd = "mvn"; $prms = "clean install"; write-output "Invoking `"$cmd $prms`""; Invoke-Expression "$cmd $prms" }
+function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
+function 	zaxfe()	{ change-directory "$HOME\workspace\zax-frontend\" }
+function 	zambe()	{ change-directory "$HOME\workspace\zam-backend\" }
+function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\rest\" }
+function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
 function 	rmai()	{ docker rmi $(docker images -q -a) }
 function	killalld() 	{ docker rm -f $(docker ps -a -q) }
 function	stopalld() 	{ docker stop $(docker ps -a -q) }
@@ -96,8 +95,15 @@ function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
 function	sshz	{ ssh -i $keyfile_zax $usr_zax@zax }
 function	scpz	{ param($src, $dest) scp -i $keyfile_zax $src $usr_zax@zax:$dest }
 
-######################################### HELPER ###########################################
+######################################### HELPER FUNCTIONS ###########################################
 #todo invoke command mit ausgabe was invoked wird
+function	change-directory() #mit Ausgabe vorher-nachher
+{
+	param($dst)
+	$prev = pwd
+	set-location $dst
+	echo "$prev --> $dst"
+}
 
 
 ######################################### GIT ###########################################
