@@ -4,3 +4,4 @@ nnoremap k j
 nnoremap l k
 nnoremap ö l
 nnoremap ; l
+
