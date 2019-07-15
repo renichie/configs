@@ -27,6 +27,7 @@ function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep 
 function	configs()	{ $prev = pwd; $loc = "$HOME\workspace\configs\"; set-location $loc; echo "$prev --> $loc"}
 function	upds()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile }
 function	ws()		{ change-directory "$HOME/workspace" }
+function	wiki()		{ set-location $HOME/workspace/wiki }
 
 
 ######################################### navigation ###########################################
