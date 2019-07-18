@@ -14,12 +14,11 @@ set-alias 	grep 	Select-string
 set-alias 	find	get-childitem
 set-alias 	run 	Invoke-History
 set-alias	hs		get-history
-set-alias	be		zambe
-set-alias	fe		zamfe
 set-alias	open	invoke-item
 set-alias	c		clear-host
+
 #set-alias	-Name 'dps'	-Value 'docker ps' 
-#Function Aliases
+######################################## Function Aliases ##############################
 function 	ll 			{ Get-ChildItem -Force $args }
 function	less()		{ out-host -paging } #TODO not working <-- needs parameters
 function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $p -name -r" }
@@ -31,32 +30,23 @@ function	wiki()		{ set-location $HOME/workspace/wiki }
 
 
 ######################################### navigation ###########################################
+set-alias	be		zambe
+set-alias	fe		zamfe
+function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
+function 	zaxfe()	{ change-directory "$HOME\workspace\zax-frontend\" }
+function 	zambe()	{ change-directory "$HOME\workspace\zam-backend\" }
+function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\rest\" }
 function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output "$prev --> $loc"}
 function 	home2()	{ $prev = pwd; $loc = "$HOME\workspace\zax-backend\rest\"; set-location $loc; echo "$prev --> $loc"} 
 
 #============================== docker/ZAx specific aliases ============================
 function	go()	{ $cmd = "mvn"; $prms = "clean install"; write-output "Invoking `"$cmd $prms`""; Invoke-Expression "$cmd $prms" }
-function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
-function 	zaxfe()	{ change-directory "$HOME\workspace\zax-frontend\" }
-function 	zambe()	{ change-directory "$HOME\workspace\zam-backend\" }
-function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\rest\" }
-function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
 function 	rmai()	{ docker rmi $(docker images -q -a) }
 function	killalld() 	{ docker rm -f $(docker ps -a -q) }
 function	stopalld() 	{ docker stop $(docker ps -a -q) }
 function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
 function	sshz	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax }
 function	scpz	{ param($src, $dest) scp -i $KEYFILE_ZAX $src $USR_ZAX@zax:$dest }
-
-######################################### HELPER FUNCTIONS ###########################################
-#todo invoke command mit ausgabe was invoked wird
-function	change-directory() #mit Ausgabe vorher-nachher
-{
-	param($dst)
-	$prev = pwd
-	set-location $dst
-	echo "$prev --> $dst"
-}
 
 ################################################## Prompt ########################################################################
 Import-Module Posh-Git
@@ -114,5 +104,15 @@ Enable-AdvancedHistory -Unique
 
 
 ######################################### GIT CMDs ###########################################
-function	co()	{ git checkout }
 function	gst()	{ git status }
+function	lg()	{ git lg }
+
+######################################### HELPER FUNCTIONS ###########################################
+function	change-directory() #mit Ausgabe vorher-nachher
+{
+	param($dst)
+	$prev = pwd
+	set-location $dst
+	echo "$prev --> $dst"
+}
+
