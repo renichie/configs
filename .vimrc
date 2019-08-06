@@ -1,3 +1,4 @@
+set nobackup
 set noswapfile
 nnoremap j h
 nnoremap k j

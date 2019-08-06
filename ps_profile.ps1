@@ -4,50 +4,6 @@ $USR_ZAX = "eichinda"
 $CONFIG_DIR = "$HOME/workspace/configs"
 
 
-
-Set-PSReadlineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit
-
-
-######################################## ALIASES #######################################
-set-alias 	which 	get-command
-set-alias 	grep 	Select-string
-set-alias 	find	get-childitem
-set-alias 	run 	Invoke-History
-set-alias	hs		get-history
-set-alias	open	invoke-item
-set-alias	c		clear-host
-
-#set-alias	-Name 'dps'	-Value 'docker ps' 
-######################################## Function Aliases ##############################
-function 	ll 			{ Get-ChildItem -Force $args }
-function	less()		{ out-host -paging } #TODO not working <-- needs parameters
-function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $p -name -r" }
-function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
-function	configs()	{ $prev = pwd; $loc = "$HOME\workspace\configs\"; set-location $loc; echo "$prev --> $loc"}
-function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
-function	ws()		{ change-directory "$HOME/workspace" }
-function	wiki()		{ set-location $HOME/workspace/wiki }
-
-
-######################################### navigation ###########################################
-set-alias	be		zambe
-set-alias	fe		zamfe
-function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
-function 	zaxfe()	{ change-directory "$HOME\workspace\zax-frontend\" }
-function 	zambe()	{ change-directory "$HOME\workspace\zam-backend\" }
-function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\rest\" }
-function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output "$prev --> $loc"}
-function 	home2()	{ $prev = pwd; $loc = "$HOME\workspace\zax-backend\rest\"; set-location $loc; echo "$prev --> $loc"} 
-
-#============================== docker/ZAx specific aliases ============================
-function	go()	{ $cmd = "mvn"; $prms = "clean install"; write-output "Invoking `"$cmd $prms`""; Invoke-Expression "$cmd $prms" }
-function 	rmai()	{ docker rmi $(docker images -q -a) }
-function	killalld() 	{ docker rm -f $(docker ps -a -q) }
-function	stopalld() 	{ docker stop $(docker ps -a -q) }
-function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
-function	sshz	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax }
-function	scpz	{ param($src, $dest) scp -i $KEYFILE_ZAX $src $USR_ZAX@zax:$dest }
-
 ################################################## Prompt ########################################################################
 Import-Module Posh-Git
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -78,10 +34,10 @@ function prompt {
 		Write-Host "$(" " * $NestedPromptLevel)" -ForegroundColor DarkGray -NoNewline
         # Write-Host "| *$([char]0xE0B0)$("$([char]0xE0B1)" * $NestedPromptLevel)" -ForegroundColor Cyan -NoNewline
     }
-    ' '
+	' '
 }
 
-# Readline options
+################################################## Readline options ########################################################################
 ## Tab completion
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineOption -ShowToolTips
@@ -100,7 +56,50 @@ Set-PSReadlineOption -TokenKind Type -ForegroundColor DarkCyan
 Import-Module AdvancedHistory
 Enable-AdvancedHistory -Unique
 
-#############################################################################################################################
+Set-PSReadlineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit
+
+#cd $HOME
+
+######################################## ALIASES #######################################
+set-alias 	which 	get-command
+set-alias 	grep 	Select-string
+set-alias 	find	get-childitem
+set-alias 	run 	Invoke-History
+set-alias	hs		get-history
+set-alias	open	invoke-item
+set-alias	c		clear-host
+ 
+######################################## Function Aliases ##############################
+function 	ll 			{ Get-ChildItem -Force $args }
+function	less()		{ out-host -paging } #TODO not working <-- needs parameters
+function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $p -name -r" }
+function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
+function	configs()	{ $prev = pwd; $loc = "$HOME\workspace\configs\"; set-location $loc; echo "$prev --> $loc"}
+function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
+function	ws()		{ change-directory "$HOME/workspace" }
+function	wiki()		{ set-location $HOME/workspace/wiki }
+
+
+######################################### navigation ###########################################
+set-alias	be		zambe
+set-alias	fe		zamfe
+function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
+function 	zaxfe()	{ change-directory "$HOME\workspace\zax-frontend\" }
+function 	zambe()	{ change-directory "$HOME\workspace\zam-backend\" }
+function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\rest\" }
+function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output "$prev --> $loc"}
+function 	home2()	{ $prev = pwd; $loc = "$HOME\workspace\zax-backend\rest\"; set-location $loc; echo "$prev --> $loc"} 
+
+#============================== docker/ZAM specific aliases ============================
+#function	go()	{ $cmd = "mvn"; $prms = "clean install"; write-output "Invoking `"$cmd $prms`""; Invoke-Expression "$cmd $prms" }
+function 	rmai()	{ docker rmi $(docker images -q -a) }
+function	killalld() 	{ docker rm -f $(docker ps -a -q) }
+function	stopalld() 	{ docker stop $(docker ps -a -q) }
+function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
+function	sshz	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax }
+function	scpz	{ param($src, $dest) scp -i $KEYFILE_ZAX $src $USR_ZAX@zax:$dest } #copy to zax
+function	scpzr	{ param($src, $dest) scp -i $KEYFILE_ZAX $USR_ZAX@zax:$src $dest } #copy from zax
+function	slog		{ while ($true){ cat .\target\liberty\wlp\usr\servers\defaultServer\logs\console.log; sleep 15 } }
 
 
 ######################################### GIT CMDs ###########################################
