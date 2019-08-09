@@ -91,14 +91,22 @@ function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output
 function 	home2()	{ $prev = pwd; $loc = "$HOME\workspace\zax-backend\rest\"; set-location $loc; echo "$prev --> $loc"} 
 
 #============================== docker/ZAM specific aliases ============================
+<<<<<<< HEAD
 #function	go()	{ $cmd = "mvn"; $prms = "clean install"; write-output "Invoking `"$cmd $prms`""; Invoke-Expression "$cmd $prms" }
+=======
+function	go()	{ $cmd = "mvn"; $prms = "clean install"; write-output "Invoking `"$cmd $prms`""; Invoke-Expression "$cmd $prms" }
+>>>>>>> 28a4a57b92d6bad58f723d426ce6a11bf3491c1a
 function 	rmai()	{ docker rmi $(docker images -q -a) }
 function	killalld() 	{ docker rm -f $(docker ps -a -q) }
 function	stopalld() 	{ docker stop $(docker ps -a -q) }
 function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
 function	sshz	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax }
+<<<<<<< HEAD
 function	scpz	{ param($src, $dest) scp -i $KEYFILE_ZAX $src $USR_ZAX@zax:$dest } #copy to zax
 function	scpzr	{ param($src, $dest) scp -i $KEYFILE_ZAX $USR_ZAX@zax:$src $dest } #copy from zax
+=======
+function	scpz	{ param($src, $dest) scp -i $KEYFILE_ZAX $src $USR_ZAX@zax:$dest }
+>>>>>>> 28a4a57b92d6bad58f723d426ce6a11bf3491c1a
 function	slog		{ while ($true){ cat .\target\liberty\wlp\usr\servers\defaultServer\logs\console.log; sleep 15 } }
 
 
