@@ -16,9 +16,3 @@ nnoremap k j
 nnoremap l k
 nnoremap ö l
 nnoremap ; l
-
-"noremap ? l
-noremap ; l
-noremap l k
-noremap k j
-noremap j h
