@@ -97,6 +97,7 @@ function	killalld() 	{ docker rm -f $(docker ps -a -q) }
 function	stopalld() 	{ docker stop $(docker ps -a -q) }
 function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
 function	sshz	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax }
+#function	ssht	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax -Command "~/.tmux_startup.sh" }
 function	scpz	{ param($src, $dest) scp -i $KEYFILE_ZAX $src $USR_ZAX@zax:$dest } #copy to zax
 function	scpzr	{ param($src, $dest) scp -i $KEYFILE_ZAX $USR_ZAX@zax:$src $dest } #copy from zax
 function	slog		{ while ($true){ cat .\target\liberty\wlp\usr\servers\defaultServer\logs\console.log; sleep 15 } }
