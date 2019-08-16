@@ -8,10 +8,9 @@
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups
 # ... and ignore same sucessive entries.
-export HISTCONTROL=ignoreboth
 
 # remember (almost) everything
-export HISTFILESIZE=3000
+export HISTFILESIZE=5000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -63,3 +62,4 @@ alias ll='ls -gGh'
 alias lr='ls -lash'
 alias la='ls -A'
 alias l='ls -CF'
+
