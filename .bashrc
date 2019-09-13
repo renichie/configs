@@ -8,10 +8,9 @@
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups
 # ... and ignore same sucessive entries.
-export HISTCONTROL=ignoreboth
 
 # remember (almost) everything
-export HISTFILESIZE=3000
+export HISTFILESIZE=5000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -64,16 +63,3 @@ alias lr='ls -lash'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias hs=history
-alias open='xdg-open'
-alias adjMonitors='xrandr --output VGA-0 --left-of DVI-I-1'
-
-#sshs
-alias faui06='ssh -X faui06.informatik.uni-erlangen.de -l sidaeich -i ~/.ssh/cip'
-#alias faui00b='ssh sidaeich@faui00b.informatik.uni-erlangen.de'
-alias uranos='ssh renichie.hopto.org -l bernd -i ~/.ssh/uranos'
-
-#scps
-alias scip='scp -i ~/.ssh/cip'
-alias sd='sudo shutdown now'
-alias python='python3'

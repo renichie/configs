@@ -1,19 +1,22 @@
+
+set noswapfile
 set number
 set mouse=a
 syntax on
-set clipboard=unnamed
+set clipboard=unnamedplus
 colo delek
 set tabstop=4
-
 set ai "setzt autoindent
 set si "setzt smart indent
 
-set noswapfile
+nnoremap j h
+nnoremap k j
+nnoremap l k
+nnoremap ö l
+nnoremap ; l
 
-"noremap ö l
-noremap ; l
-noremap l k
-noremap k j
-noremap j h
-
-set clipboard=unnamedplus
+vnoremap j h
+vnoremap k j
+vnoremap l k
+vnoremap ö l
+vnoremap ; l
