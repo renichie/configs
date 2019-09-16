@@ -85,7 +85,7 @@ function	ahs()		{ cat (Get-PSReadlineOption).HistorySavePath }
 function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
 function 	zaxfe()	{ change-directory "$HOME\workspace\zax-frontend\" }
 function 	zambe()	{ change-directory "$HOME\workspace\zam-backend\" }
-function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\rest\" }
+function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\" }
 function 	bmwfe()	{ change-directory "$HOME\workspace\clarwegpt\" }
 function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output "$prev --> $loc"}
 function	..()	{ change-directory ".." }
