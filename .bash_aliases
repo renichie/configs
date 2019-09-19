@@ -32,7 +32,7 @@ dimn()		{ docker images $@ --format 'table {{.Repository}}\t{{.Tag}}\t{{.ID}}'; 
 
 alias dps='docker ps'
 alias dlogs='docker logs -t --tail 200'
-alias dl='docker logs'
+alias dl='docker logs -t -f'
 alias dins='docker inspect'
 alias di='docker inspect'
 alias dimgs='docker images'
