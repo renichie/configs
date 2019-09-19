@@ -2,6 +2,7 @@
 $KEYFILE_ZAX = "$HOME\.ssh\zax_sshkey"
 $USR_ZAX = "eichinda"
 $CONFIG_DIR = "$HOME/workspace/configs"
+$STARTING_DIR = "$HOME/workspace"
 
 
 ################################################## Prompt ########################################################################
@@ -42,7 +43,7 @@ function prompt {
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineOption -ShowToolTips
  
-## Colours
+## Colours <-- don't work no more
 #Set-PSReadlineOption -TokenKind Command -ForegroundColor Blue
 #Set-PSReadlineOption -TokenKind Parameter -ForegroundColor DarkBlue
 #Set-PSReadlineOption -TokenKind Comment -ForegroundColor Green
@@ -58,7 +59,8 @@ Enable-AdvancedHistory
 
 Set-PSReadlineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit
 
-#cd $HOME
+# set directory to start
+set-location $STARTING_DIR
 
 ######################################## ALIASES #######################################
 set-alias 	which 	get-command
@@ -72,7 +74,7 @@ set-alias	c		clear-host
 ######################################## Function Aliases ##############################
 function 	ll 			{ Get-ChildItem -Force $args }
 function	less()		{ out-host -paging } #TODO not working <-- needs parameters
-function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $p -name -r" }
+function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $d -name -r" }
 function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
 function	configs()	{ $prev = pwd; $loc = "$HOME\workspace\configs\"; set-location $loc; echo "$prev --> $loc"}
 function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
@@ -91,6 +93,7 @@ function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output
 function	..()	{ change-directory ".." }
 function	...()	{ change-directory "../.." }
 function	....()	{ change-directory "../../.." }
+function	work()	{ change-directory "$HOME\workspace\" }
 set-alias	be		zambe
 set-alias	fe		zamfe
 set-alias	bmw		bmwfe
@@ -113,7 +116,14 @@ function	grepro	{ param ($d, $p); Get-ChildItem $d -Recurse * | Select-String -P
 
 ######################################### GIT CMDs ###########################################
 function	gst()	{ git status }
+set-alias	gs		gst
 function	lg()	{ git lg }
+function	go()	{ git checkout }
+set-alias	gco		go
+function	gsh		{ git show }
+set-alias	gs		gsh
+set-alias	got		git
+set-alias	get 	git
 
 ######################################### HELPER FUNCTIONS ###########################################
 function	change-directory() #mit Ausgabe vorher-nachher

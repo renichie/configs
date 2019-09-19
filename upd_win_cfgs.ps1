@@ -19,5 +19,7 @@ Invoke-Expression "copy-item $configDir/.vimrc $HOME/.ideavimrc"
 #setting GIT aliases
 Invoke-Expression "$configDir/git_aliases.ps1"
 
+.$profile
+
 Set-PSDebug -Trace 0
 
