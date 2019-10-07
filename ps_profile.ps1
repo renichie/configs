@@ -97,6 +97,7 @@ function 	zaxfe()	{ change-directory "$HOME\workspace\zax-frontend\" }
 function 	zambe()	{ change-directory "$HOME\workspace\zam-backend\" }
 function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\" }
 function 	bmwfe()	{ change-directory "$HOME\workspace\clarwegpt\" }
+function 	wiki()	{ change-directory "$HOME\workspace\wiki.wiki\" }
 function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output "$prev --> $loc"}
 function	..()	{ change-directory ".." }
 function	...()	{ change-directory "../.." }
