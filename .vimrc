@@ -13,19 +13,19 @@ set si "setzt smart indent
 noremap j h
 noremap k j
 noremap l k
-noremap Ã¶ l
+noremap ö l
 noremap ; l
 
 nnoremap j h
 nnoremap k j
 nnoremap l k
-nnoremap Ã¶ l
+nnoremap ö l
 nnoremap ; l
 
 vnoremap j h
 vnoremap k j
 vnoremap l k
-vnoremap Ã¶ l
+vnoremap ö l
 vnoremap ; l
 
 "===========================tab navigation======================================

@@ -17,7 +17,7 @@ Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
 #
 
 #setting GIT aliases
-Invoke-Expression "$configDir/git_aliases.ps1"
+Invoke-Expression "$configDir/git_config_global.ps1"
 
 .$profile
 

@@ -85,28 +85,30 @@ function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $d -name
 function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
 function	configs()	{ $prev = pwd; $loc = "$HOME\workspace\configs\"; set-location $loc; echo "$prev --> $loc"}
 function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
-function	ws()		{ change-directory "$HOME/workspace" }
-function	wiki()		{ set-location $HOME/workspace/wiki }
 function	ahs()		{ cat (Get-PSReadlineOption).HistorySavePath }
 
 ###################################################################################################
 ######################################### navigation ##############################################
 ###################################################################################################
-function 	zamfe()	{ change-directory "$HOME\workspace\zam-frontend\" }
-function 	zaxfe()	{ change-directory "$HOME\workspace\zax-frontend\" }
-function 	zambe()	{ change-directory "$HOME\workspace\zam-backend\" }
-function 	zaxbe()	{ change-directory "$HOME\workspace\zax-backend\" }
-function 	bmwfe()	{ change-directory "$HOME\workspace\clarwegpt\" }
-function 	wiki()	{ change-directory "$HOME\workspace\wiki.wiki\" }
-function 	home() 	{ $prev = pwd; $loc = "$HOME"; set-location $loc; write-output "$prev --> $loc"}
-function	..()	{ change-directory ".." }
-function	...()	{ change-directory "../.." }
-function	....()	{ change-directory "../../.." }
-function	work()	{ change-directory "$HOME\workspace\" }
-function	jenkins	{ change-directory "$HOME\workspace\jenkins_workflows\" }
+function 	zamfe()	{ change-directory-verbose "$HOME\workspace\zam-frontend\" }
+function 	zaxfe()	{ change-directory-verbose "$HOME\workspace\zax-frontend\" }
+function 	zambe()	{ change-directory-verbose "$HOME\workspace\zam-backend\" }
+function 	zaxbe()	{ change-directory-verbose "$HOME\workspace\zax-backend\" }
+function 	bmwfe()	{ change-directory-verbose "$HOME\workspace\clarwegpt\" }
+function 	wiki()	{ change-directory-verbose "$HOME\workspace\wiki.wiki\" }
+function 	scripts()	{ change-directory-verbose "$HOME\workspace\scripts\" }
+function	configs()	{ change-directory-verbose "$HOME\workspace\configs\"}
+function 	home() 	{ change-directory-verbose "$HOME"}
+function	ws()	{ change-directory-verbose "$HOME/workspace" }
+function	work()	{ change-directory-verbose "$HOME\workspace\" }
+function	jenkins	{ change-directory-verbose "$HOME\workspace\jenkins_workflows\" }
+function	..()	{ change-directory-verbose ".." }
+function	...()	{ change-directory-verbose "../.." }
+function	....()	{ change-directory-verbose "../../.." }
 set-alias	be		zambe
 set-alias	fe		zamfe
 set-alias	bmw		bmwfe
+set-alias	confs	configs
 
 ###################################################################################################
 ######################################### docker/ZAX specific aliases #############################
@@ -136,29 +138,30 @@ function	gst()	{ git status $args }
 set-alias	gs		gst
 
 function	glg()	{ git lg $args }
-function	glog()	{ git log1 $args}
+function	glog()	{ git log1 $args }
 function	glb()	{ git log2 $args }
 
-function	gco()	{ git checkout $args}
+function	gco()	{ git checkout $args }
 set-alias	go		gco
 
-function	gsh		{ git show $args}
+function	gsh		{ git show $args }
 
 set-alias	got		git
 set-alias	get 	git
 
-function	ga()	{ git add $args}
+function	ga()	{ git add $args }
+function	gaa()	{ git add -u $args }
 
 function	gcom()	{ git commit $args }
 
 function	gb()	{ git branch $args }
 
-function	gmt		{ git mergetool $args }
+function	gmt()	{ git mergetool $args }
 
 ###################################################################################################
 ######################################### HELPER FUNCTIONS ########################################
 ###################################################################################################
-function	change-directory() #mit Ausgabe vorher-nachher
+function	change-directory-verbose() #mit Ausgabe vorher-nachher
 {
 	param($dst)
 	$prev = pwd
