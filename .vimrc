@@ -24,4 +24,9 @@ vnoremap j h
 vnoremap k j
 vnoremap l k
 vnoremap ö l
-vnoremap ; l
+
+"===========================tab navigation======================================
+nnoremap <C-Left> :tabprevious<CR>                                                                            
+nnoremap <C-Right> :tabnext<CR>
+nnoremap <C-j> :tabprevious<CR>                                                                            
+nnoremap <C-k> :tabnext<CR>noremap ; l
