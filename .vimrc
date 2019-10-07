@@ -8,6 +8,12 @@ set tabstop=4
 set ai "setzt autoindent
 set si "setzt smart indent
 
+noremap j h
+noremap k j
+noremap l k
+noremap ö l
+noremap ; l
+
 nnoremap j h
 nnoremap k j
 nnoremap l k

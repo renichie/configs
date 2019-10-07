@@ -6,7 +6,7 @@ $USR_ZAX = "eichinda"
 $CONFIG_DIR = "$HOME/workspace/configs"
 $STARTING_DIR = "$HOME"
 
-set-location $STARTING_DIR
+#set-location $STARTING_DIR
 
 ###################################################################################################
 ################################################## Prompt #########################################
@@ -149,6 +149,10 @@ set-alias	get 	git
 function	ga()	{ git add $args}
 
 function	gcom()	{ git commit $args }
+
+function	gb()	{ git branch $args }
+
+function	gmt		{ git mergetool $args }
 
 ###################################################################################################
 ######################################### HELPER FUNCTIONS ########################################
