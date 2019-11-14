@@ -34,6 +34,13 @@ nnoremap <C-Right> :tabnext<CR>
 nnoremap <C-j> :tabprevious<CR>                                                                            
 nnoremap <C-k> :tabnext<CR>
 
+"===========================split tab navigation================================
+"nnoremap <C-J> <C-W><C-H>
+"nnoremap <C-K> <C-W><C-J>
+"nnoremap <C-L> <C-W><C-K>
+"nnoremap <C-?> <C-W><C-L>
+"nnoremap <C-;> <C-W><C-L>
+
 "see https://stackoverflow.com/questions/6638290/how-to-make-shortcut-for-tabnew-tabn-tabp
 "===========================tab cmd shortcuts======================================
 cnoreabbrev <expr> tn getcmdtype() == ":" && getcmdline() == 'tn' ? 'tabnew' : 'tn'

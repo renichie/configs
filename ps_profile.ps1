@@ -3,8 +3,9 @@
 ###################################################################################################
 $KEYFILE_ZAX = "$HOME\.ssh\zax_sshkey"
 $USR_ZAX = "eichinda"
-$CONFIG_DIR = "$HOME/workspace/configs"
 $STARTING_DIR = "$HOME"
+$WORKSPACE = "$HOME/workspace"
+$CONFIG_DIR = "$WORKSPACE/configs"
 
 #set-location $STARTING_DIR
 
@@ -83,28 +84,29 @@ function 	ll 			{ Get-ChildItem -Force $args }
 function	less()		{ out-host -paging } #TODO not working <-- needs parameters
 function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $d -name -r" }
 function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
-function	configs()	{ $prev = pwd; $loc = "$HOME\workspace\configs\"; set-location $loc; echo "$prev --> $loc"}
+function	configs()	{ $prev = pwd; $loc = "$WORKSPACE\configs\"; set-location $loc; echo "$prev --> $loc"}
 function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
 function	ahs()		{ cat (Get-PSReadlineOption).HistorySavePath }
 
 ###################################################################################################
 ######################################### navigation ##############################################
 ###################################################################################################
-function 	zamfe()	{ change-directory-verbose "$HOME\workspace\zam-frontend\" }
-function 	zaxfe()	{ change-directory-verbose "$HOME\workspace\zax-frontend\" }
-function 	zambe()	{ change-directory-verbose "$HOME\workspace\zam-backend\" }
-function 	zaxbe()	{ change-directory-verbose "$HOME\workspace\zax-backend\" }
-function 	bmwfe()	{ change-directory-verbose "$HOME\workspace\clarwegpt\" }
-function 	wiki()	{ change-directory-verbose "$HOME\workspace\wiki.wiki\" }
-function 	scripts()	{ change-directory-verbose "$HOME\workspace\scripts\" }
-function	configs()	{ change-directory-verbose "$HOME\workspace\configs\"}
+function 	zamfe()	{ change-directory-verbose "$WORKSPACE\zam-frontend\" }
+function 	zaxfe()	{ change-directory-verbose "$WORKSPACE\zax-frontend\" }
+function 	zambe()	{ change-directory-verbose "$WORKSPACE\zam-backend\" }
+function 	zaxbe()	{ change-directory-verbose "$WORKSPACE\zax-backend\" }
+function 	bmwfe()	{ change-directory-verbose "$WORKSPACE\clarwegpt\" }
+function 	wiki()	{ change-directory-verbose "$WORKSPACE\wiki.wiki\" }
+function 	scripts()	{ change-directory-verbose "$WORKSPACE\scripts\" }
+function	configs()	{ change-directory-verbose "$WORKSPACE\configs\"}
 function 	home() 	{ change-directory-verbose "$HOME"}
-function	ws()	{ change-directory-verbose "$HOME/workspace" }
-function	work()	{ change-directory-verbose "$HOME\workspace\" }
-function	jenkins	{ change-directory-verbose "$HOME\workspace\jenkins_workflows\" }
+function	ws()	{ change-directory-verbose "$WORKSPACE" }
+function	work()	{ change-directory-verbose "$WORKSPACE\" }
+function	jenkins	{ change-directory-verbose "$WORKSPACE\jenkins_workflows\" }
 function	..()	{ change-directory-verbose ".." }
 function	...()	{ change-directory-verbose "../.." }
 function	....()	{ change-directory-verbose "../../.." }
+function	bam()	{ change-directory-verbose "$WORKSPACE/bam-backendmasterdata" }
 set-alias	be		zambe
 set-alias	fe		zamfe
 set-alias	bmw		bmwfe
@@ -127,12 +129,12 @@ function	mpackage{ param ($profile); Invoke-Expression "mvn com.spotify:dockerfi
 #--> looks for pattern $p in all files contained in folder $d
 function	grepr	{ param ($d, $p); Get-ChildItem $d -Recurse * | Select-String -Pattern "$p" }
 #--> looks for pattern $p in all files contained in folder $d and gives out only the file location in which the pattern is found
-function	grepro	{ param ($d, $p); Get-ChildItem $d -Recurse * | Select-String -Pattern "$p" | Select-Object -Unique Path }
+function	grepro	{ param ($d, $p); Get-ChildItem $d -Recurse * | Select-String -Pattern $p | Select-Object -Unique Path }
 
 
 # some of those aliases only work in combination with git_aliases.ps1 script, where some of the git cmds are specified
 ###################################################################################################
-######################################### GIT CMDs ################################################
+######################################### GIT CMDs/ALIASES ########################################
 ###################################################################################################
 function	gst()	{ git status $args }
 set-alias	gs		gst
@@ -146,8 +148,17 @@ set-alias	go		gco
 
 function	gsh		{ git show $args }
 
+# maybe, just maybe a little bit too much
 set-alias	got		git
 set-alias	get 	git
+set-alias	g 		git
+set-alias	gti 	git
+set-alias	tgi 	git
+set-alias	igt 	git
+set-alias	ig 		git
+set-alias	gt 		git
+set-alias 	gut 	git
+set-alias	gid		git
 
 function	ga()	{ git add $args }
 function	gaa()	{ git add -u $args }
@@ -158,10 +169,21 @@ function	gb()	{ git branch $args }
 
 function	gmt()	{ git mergetool $args }
 
+function	gr()	{ git reset }
+
+function	bl()	{ git branch -avv }
+
+function	gdc()	{ git diff --cached $args }
+
+function	gfa()	{ git fetch --all $args }
+function	gca()	{ git commit --amend $args }
+function	gcano()	{ git commit --amend --no-edit $args }
+
+
 ###################################################################################################
 ######################################### HELPER FUNCTIONS ########################################
 ###################################################################################################
-function	change-directory-verbose() #mit Ausgabe vorher-nachher
+function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachher
 {
 	param($dst)
 	$prev = pwd
