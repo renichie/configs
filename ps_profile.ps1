@@ -84,13 +84,15 @@ function 	ll 			{ Get-ChildItem -Force $args }
 function	less()		{ out-host -paging } #TODO not working <-- needs parameters
 function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $d -name -r" }
 function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
-function	configs()	{ $prev = pwd; $loc = "$WORKSPACE\configs\"; set-location $loc; echo "$prev --> $loc"}
 function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
 function	ahs()		{ cat (Get-PSReadlineOption).HistorySavePath }
+function	hgrep()		{ get-history | grep $args }
+set-alias 	hg			hgrep
 
 ###################################################################################################
 ######################################### navigation ##############################################
 ###################################################################################################
+function	configs() { change-directory-verbose "$WORKSPACE\configs\" }
 function 	zamfe()	{ change-directory-verbose "$WORKSPACE\zam-frontend\" }
 function 	zaxfe()	{ change-directory-verbose "$WORKSPACE\zax-frontend\" }
 function 	zambe()	{ change-directory-verbose "$WORKSPACE\zam-backend\" }
@@ -169,7 +171,7 @@ function	gb()	{ git branch $args }
 
 function	gmt()	{ git mergetool $args }
 
-function	gr()	{ git reset }
+function	gr()	{ git reset $args }
 
 function	bl()	{ git branch -avv }
 
