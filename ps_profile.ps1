@@ -179,7 +179,7 @@ function	gdc()	{ git diff --cached $args }
 
 function	gfa()	{ git fetch --all $args }
 function	gca()	{ git commit --amend $args }
-function	gcano()	{ git commit --amend --no-edit $args }
+function	gcane()	{ git commit --amend --no-edit $args }
 
 
 ###################################################################################################

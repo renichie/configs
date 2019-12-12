@@ -7,6 +7,12 @@ Invoke-Expression "copy-item $configDir/ps_profile.ps1 $profile"
 
 Invoke-Expression "copy-item $configDir/.vimrc $HOME/_vimrc"
 Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
+
+Invoke-Expression "copy-item $configDir/.vimrc $HOME/_vimrc"
+Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
+
+Invoke-Expression "copy-item $configDir/.vimrc $HOME/_ideavimrc"
+#copy-item .vimrc $HOME/.vimrc
 #copy-item .vimrc $HOME/.vimrc
 
 #echo "source $HOME/.vimrc" > $HOME/.ideavimrc
@@ -22,4 +28,3 @@ Invoke-Expression "$configDir/git_config_global.ps1"
 .$profile
 
 Set-PSDebug -Trace 0
-
