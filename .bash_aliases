@@ -7,6 +7,7 @@ alias reload='source ~/.bashrc'
 #tmux
 alias zsession='~/scripts/tmux_start_zax_session.sh'
 alias tats='tmux attach-session -t'
+alias ta='tats'
 alias tzax='tmux attach-session -t zax'
 alias taudi='tmux attach-session -t audi'
 alias tshared='tmux -S /var/tmux/socket attach'
@@ -14,8 +15,12 @@ tiuvo()	{ tmux -S /var/tmux/iuvo attach; }
 
 ####################################### SSH ##############################################
 alias iuvo215='ssh -i ~/.ssh/tvtyxyq\@iuvo215.p_key tvtyxyq@iuvo215.in.audi.vwg'
+iuvo215scpr() { scp -i ~/.ssh/tvtyxyq\@iuvo215.p_key tvtyxyq@iuvo215.in.audi.vwg:$1 $2;}
+iuvo215scp() { scp -i ~/.ssh/tvtyxyq\@iuvo215.p_key $1 tvtyxyq@iuvo215.in.audi.vwg:$2; }
+#iuvo215scp() {
+#		scp -i ~/.ssh/tvtyxyq\@iuvo215.p_key tvtyxyq@iuvo215.in.audi.vwg:$1 $2;
+#}
 #alias iuvo215_old='ssh -p 10022 -i ~/.ssh/tvtyxyq\@iuvo215.p_key tvtyxyq@localhost'
-#alias iuvo215scp='scp -i ~/.ssh/tvtyxyq\@iuvo215.p_key tvtyxyq@iuvo215.in.audi.vwg'
 
 ota() {
 	f5fpc --start --host https://rmgw.audi.de -x -u ${1:-tvtyxyq} -p ${2} < /dev/null >& /dev/null &
@@ -68,6 +73,7 @@ dcrm()		{ docker stop $1 ; docker rm $1; }
 dcDelWar()	{ docker exec -t -u root $1 rm -rf /opt/ol/wlp/usr/servers/defaultServer/dropins/expanded; docker restart $1; }
 #TODO irgend ein syntax fehler
 #dhf()		{ docker history --format 'table {{.ID}}\t{{.CreatedAt}}\t{{.CreatedBy}}' $@; }
+dpsql()		{ docker exec -ti $1 psql -U postgres;}
 
 alias dbzam='docker exec -ti zax psql -U postgres'
 alias dlogs='docker logs -t --tail 200'
