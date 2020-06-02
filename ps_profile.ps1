@@ -5,7 +5,7 @@ $KEYFILE_ZAX = "$HOME\.ssh\zax_sshkey"
 $USR_ZAX = "eichinda"
 $STARTING_DIR = "$HOME"
 $WORKSPACE = "$HOME/workspace"
-$CONFIG_DIR = "$WORKSPACE/configs"
+$CONFIG_DIR = "$HOME/configs"
 
 #set-location $STARTING_DIR
 
@@ -50,15 +50,20 @@ function prompt {
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineOption -ShowToolTips
  
-## Colours <-- don't work no more
-#Set-PSReadlineOption -TokenKind Command -ForegroundColor Blue
-#Set-PSReadlineOption -TokenKind Parameter -ForegroundColor DarkBlue
-#Set-PSReadlineOption -TokenKind Comment -ForegroundColor Green
-#Set-PSReadlineOption -TokenKind Operator -ForegroundColor Gray
-#Set-PSReadlineOption -TokenKind Variable -ForegroundColor Magenta
-#Set-PSReadlineOption -TokenKind Keyword -ForegroundColor Magenta
-#Set-PSReadlineOption -TokenKind String -ForegroundColor DarkGray
-#Set-PSReadlineOption -TokenKind Type -ForegroundColor DarkCyan
+ 
+ $colors = @{
+  # ConsoleColor enum has all the old colors
+  "Command" = [ConsoleColor]::Blue
+  "Parameter" = [ConsoleColor]::DarkBlue
+  "Comment" = [ConsoleColor]::Green
+  "Operator" = [ConsoleColor]::Gray
+  "Variable" = [ConsoleColor]::Magenta
+  "Keyword" = [ConsoleColor]::Magenta
+  "String" = [ConsoleColor]::DarkGray
+  "Type" = [ConsoleColor]::DarkCyan
+}
+
+Set-PSReadLineOption -Colors $colors
  
 #AdvancedHistory
 Import-Module AdvancedHistory
@@ -92,7 +97,7 @@ set-alias 	hg			hgrep
 ###################################################################################################
 ######################################### navigation ##############################################
 ###################################################################################################
-function	configs() { change-directory-verbose "$WORKSPACE\configs\" }
+function	configs() { change-directory-verbose "$HOME\configs\" }
 function 	zamfe()	{ change-directory-verbose "$WORKSPACE\zam-frontend\" }
 function 	zaxfe()	{ change-directory-verbose "$WORKSPACE\zax-frontend\" }
 function 	zambe()	{ change-directory-verbose "$WORKSPACE\zam-backend\" }

@@ -6,10 +6,10 @@ Set-PSDebug -Trace 1
 Invoke-Expression "copy-item $configDir/ps_profile.ps1 $profile"
 
 Invoke-Expression "copy-item $configDir/.vimrc $HOME/_vimrc"
-Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
+# Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
 
 Invoke-Expression "copy-item $configDir/.vimrc $HOME/_vimrc"
-Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
+#Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
 
 Invoke-Expression "copy-item $configDir/.vimrc $HOME/_ideavimrc"
 #copy-item .vimrc $HOME/.vimrc
