@@ -7,22 +7,20 @@ declare -a config_files=(
 	".gitconfig"
 	".vimrc"
 )
+WORKING_DIR=$(pwd)
 
 mkdir -p ./config_backup
 
 for FILE in "${config_files[@]}"
 do
-	if [[ -f ~/$FILE ]] 
+	if [[ ! -L ~/$FILE ]];
 	then
-		if [[ ! -L ~/$FILE ]];
-		then
-			echo "backing up $FILE first..."
-			cp -f ~/$FILE ./config_backup
-		fi
-		rm -f ~/$FILE;
-		echo "creating link to $FILE"
-		ln -s ~/.configs/$FILE ~/$FILE;
+		echo "backing up $FILE first..."
+		cp -f ~/$FILE ./config_backup
 	fi
+	rm -f ~/$FILE;
+	echo "creating link to $FILE"
+	ln -s $WORKING_DIR/$FILE ~/$FILE;
 done
 
 
