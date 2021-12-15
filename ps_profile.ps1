@@ -50,20 +50,15 @@ function prompt {
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineOption -ShowToolTips
  
- 
- $colors = @{
-  # ConsoleColor enum has all the old colors
-  "Command" = [ConsoleColor]::Blue
-  "Parameter" = [ConsoleColor]::DarkBlue
-  "Comment" = [ConsoleColor]::Green
-  "Operator" = [ConsoleColor]::Gray
-  "Variable" = [ConsoleColor]::Magenta
-  "Keyword" = [ConsoleColor]::Magenta
-  "String" = [ConsoleColor]::DarkGray
-  "Type" = [ConsoleColor]::DarkCyan
-}
-
-Set-PSReadLineOption -Colors $colors
+## Colours <-- don't work no more
+#Set-PSReadlineOption -TokenKind Command -ForegroundColor Blue
+#Set-PSReadlineOption -TokenKind Parameter -ForegroundColor DarkBlue
+#Set-PSReadlineOption -TokenKind Comment -ForegroundColor Green
+#Set-PSReadlineOption -TokenKind Operator -ForegroundColor Gray
+#Set-PSReadlineOption -TokenKind Variable -ForegroundColor Magenta
+#Set-PSReadlineOption -TokenKind Keyword -ForegroundColor Magenta
+#Set-PSReadlineOption -TokenKind String -ForegroundColor DarkGray
+#Set-PSReadlineOption -TokenKind Type -ForegroundColor DarkCyan
  
 #AdvancedHistory
 Import-Module AdvancedHistory
@@ -97,27 +92,37 @@ set-alias 	hg			hgrep
 ###################################################################################################
 ######################################### navigation ##############################################
 ###################################################################################################
-function	configs() { change-directory-verbose "$HOME\configs\" }
-function 	zamfe()	{ change-directory-verbose "$WORKSPACE\zam-frontend\" }
-function 	zaxfe()	{ change-directory-verbose "$WORKSPACE\zax-frontend\" }
-function 	zambe()	{ change-directory-verbose "$WORKSPACE\zam-backend\" }
-function 	zaxbe()	{ change-directory-verbose "$WORKSPACE\zax-backend\" }
-function 	bmwfe()	{ change-directory-verbose "$WORKSPACE\clarwegpt\" }
+function	configs() { change-directory-verbose "$WORKSPACE\configs\" }
+function 	zamfe()	{ change-directory-verbose "$WORKSPACE\audi\zam-frontend\" }
+function 	zaxfe()	{ change-directory-verbose "$WORKSPACE\ZAx\zax-frontend\" }
+function 	zambe()	{ change-directory-verbose "$WORKSPACE\audi\zam-backend\" }
+function 	zaxbe()	{ change-directory-verbose "$WORKSPACE\ZAx\zax-backend\" }
+function 	pb()	{ change-directory-verbose "$WORKSPACE\bmw\primaerbedarfe\" }
+function 	bmwdev()	{ change-directory-verbose "C:\bmwdev\repo" }
 function 	wiki()	{ change-directory-verbose "$WORKSPACE\wiki.wiki\" }
 function 	scripts()	{ change-directory-verbose "$WORKSPACE\scripts\" }
-function	configs()	{ change-directory-verbose "$WORKSPACE\configs\"}
+function	configs()	{ change-directory-verbose "$HOME\configs\"}
 function 	home() 	{ change-directory-verbose "$HOME"}
 function	ws()	{ change-directory-verbose "$WORKSPACE" }
 function	work()	{ change-directory-verbose "$WORKSPACE\" }
-function	jenkins	{ change-directory-verbose "$WORKSPACE\jenkins_workflows\" }
+function	jenkins	{ change-directory-verbose "$WORKSPACE\audi\jenkins_workflows\" }
 function	..()	{ change-directory-verbose ".." }
 function	...()	{ change-directory-verbose "../.." }
 function	....()	{ change-directory-verbose "../../.." }
-function	bam()	{ change-directory-verbose "$WORKSPACE/bam-backendmasterdata" }
-set-alias	be		zambe
-set-alias	fe		zamfe
-set-alias	bmw		bmwfe
+function	audi()	{ change-directory-verbose "$WORKSPACE/audi" }
+function	heatvs()	{ change-directory-verbose "$WORKSPACE/heat_hvs" }
+function	hvsfe()	{ change-directory-verbose "$WORKSPACE/heat_hvs\fe-hvs" }
+function	heatfe()	{ change-directory-verbose "$WORKSPACE/heat_hvs\fe-heat" }
+function	heatps()	{ change-directory-verbose "C:\bmwdev\repo\ps-heat\ps-heat" }
+function	hvsps()	{ change-directory-verbose "C:\bmwdev\repo\ps-hvs\ps-hvs" }
+function	heatfecommon()	{ change-directory-verbose "$WORKSPACE/heat_hvs\fe-heat-hvs-common\heat-hvs-common" }
+function	demo() { change-directory-verbose "$workspace/angular-demo-final/" }
+function	msfe() { change-directory-verbose "$workspace/bmw/mobile-scanner/fe-mobile-scanner/" }
+function	msps() { change-directory-verbose "$workspace/bmw/mobile-scanner/ps-mobile-scanner/" }
 set-alias	confs	configs
+function	pcs()	{ change-directory-verbose "C:\bmwdev\repo\ps-common-service" }
+function	pms()	{ change-directory-verbose "C:\bmwdev\repo\ps-mobile-scanner" }
+function	pb()	{ change-directory-verbose "C:\bmwdev\repo\ps-bom" }
 
 ###################################################################################################
 ######################################### docker/ZAX specific aliases #############################
@@ -127,10 +132,10 @@ function 	rmai()	{ docker rmi $(docker images -q -a) }
 function	rmallc(){ docker rm -f $(docker ps -a -q) }
 function	stopallc() 	{ docker stop $(docker ps -a -q) }
 function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
-function	sshz	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax }
+function	sshz	{ ssh $USR_ZAX@zax }
 #function	ssht	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax -Command "~/.tmux_startup.sh" }
-function	scpz	{ param($src, $dest) scp -i $KEYFILE_ZAX $src $USR_ZAX@zax:$dest } #copy to zax
-function	scpzr	{ param($src, $dest) scp -i $KEYFILE_ZAX $USR_ZAX@zax:$src $dest } #copy from zax
+function	scpz	{ param($src, $dest) scp $src $USR_ZAX@zax:$dest } #copy to zax
+function	scpzr	{ param($src, $dest) scp $USR_ZAX@zax:$src $dest } #copy from zax
 function	slog	{ while ($true){ cat .\target\liberty\wlp\usr\servers\defaultServer\logs\console.log; sleep 15 } }
 function	mpackage{ param ($profile); Invoke-Expression "mvn com.spotify:dockerfile-maven-plugin:build -P $profile"; }
 #--> looks for pattern $p in all files contained in folder $d
@@ -196,6 +201,172 @@ function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachhe
 	$prev = pwd
 	set-location $dst
 	write-output "$prev --> $dst"
+}
+
+###################################################################################################
+######################################### BMW §§§§§§§§§§§§§########################################
+###################################################################################################
+function resetHeatDbAndRestartServer() {
+	docker stop docker-local_psdb_1; 
+	docker rm docker-local_psdb_1; 
+	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
+	$cwd = pwd;
+	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway;
+	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
+	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway;
+	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
+	
+	cd C:\bmwdev\repo\ps-heat\ps-heat;
+	mvn -Pmicro_ui_tests payara-micro:stop clean package payara-micro:start;
+	cd $cwd;
+}
+
+function resetHeatDb() {
+	docker stop docker-local_psdb_1; 
+	docker rm docker-local_psdb_1; 
+	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
+	$cwd = pwd;
+	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway;
+	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
+	cd $cwd;
+}
+
+function resetTestSetupHeat() {
+	docker stop docker-local_psdb_1; 
+	docker rm docker-local_psdb_1; 
+	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
+	$cwd = pwd;
+	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway;
+	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
+	cd C:\bmwdev\repo\ps-heat\ps-heat;
+	mvn -Pmicro_ui_tests payara-micro:stop clean package payara-micro:start;
+	cd $cwd;
+}
+
+function resetTestSetupHvs() {
+	docker stop docker-local_psdb_1; 
+	docker rm docker-local_psdb_1; 
+	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
+	$cwd = pwd;
+	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway;
+	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;	
+	cd C:\bmwdev\repo\ps-hvs\ps-hvs;
+	mvn -Pmicro_ui_tests payara-micro:stop clean package payara-micro:start;
+	cd $cwd;
+}
+
+function resetHvsDb() {
+	docker stop docker-local_psdb_1; 
+	docker rm docker-local_psdb_1; 
+	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
+	$cwd = pwd;
+	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway;
+	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
+	cd $cwd;
+}
+
+function resetHeatHvsDbs() {
+	docker stop docker-local_psdb_1; 	
+	docker rm docker-local_psdb_1; 
+	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
+	$cwd = pwd;
+	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway;
+	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
+	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway;
+	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
+	cd $cwd;
+}
+
+function updateHeatHvsPSRepos() {
+	$cwd = pwd;
+	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway; 	git pull --rebase;
+	cd C:\bmwdev\repo\ps-heat\ps-heat; 			git pull --rebase;
+	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway; 	git pull --rebase;
+	cd C:\bmwdev\repo\ps-common; 				git pull --rebase;
+	cd $cwd;
+}
+
+function stopTestServers() {
+	$cwd = pwd;	
+	cd C:\bmwdev\repo\ps-hvs\ps-hvs;
+	mvn -Pmicro_ui_tests payara-micro:stop;
+	cd C:\bmwdev\repo\ps-heat\ps-heat;
+	mvn -Pmicro_ui_tests payara-micro:stop;
+	cd $cwd;
+}
+
+
+###################################################################################################
+######################################### install4j #############################################
+###################################################################################################
+function i4jCompleteBuild() {
+	$cwd = pwd;
+	cd C:\bmwdev\repo\dave;
+	mvn -f com.bmw.dave.root-pom/pom.xml clean install;
+	mvn -f dave-common/pom.xml clean install;
+	mvn -f dave-client/repository/pom.xml clean verify;
+	mvn -f dave-client/pom.xml clean verify -Ddave-environment=INTEGRATION;
+	Expand-Archive -Force dave-client\releng\com.bmw.dave.client.tycho.product\target\products\com.bmw.dave.client.feature.product-win32.win32.x86_64.zip -DestinationPath dave-client\releng\com.bmw.dave.client.installer\
+	cp -Recurse -Force .\dave-client\releng\com.bmw.dave.client.installer\DAVE\* dave-client\releng\com.bmw.dave.client.installer\dave-client-build-artefacts
+	mvn -f releng/com.bmw.dave.client.installer/pom.xml package
+	#& "C:\Program Files\install4j9\bin\install4jc.exe" dave-client\releng\com.bmw.dave.client.installer\dave-client-installer-build_x86.install4j -v -D installDirectory=${HOME}\AppData\Roaming
+	#& "C:\Program Files\install4j9\bin\install4jc.exe" dave-client\releng\com.bmw.dave.client.installer\dave-client-installer-build_x86_64.install4j -v -D installDirectory=${HOME}\AppData\Roaming
+	cd $cwd;
+}
+
+function i4jappBuildx64 {
+	param($stage);
+	$cwd = pwd;
+	cd C:\bmwdev\repo\dave;
+	mvn -f com.bmw.dave.root-pom/pom.xml clean install;
+	mvn -f dave-common/pom.xml clean install;
+	mvn -f dave-client/repository/pom.xml clean verify;
+	mvn -f dave-client/pom.xml clean verify -Ddave-environment=$stage;
+	#Expand-Archive -Force dave-client\releng\com.bmw.dave.client.tycho.product\target\products\com.bmw.dave.client.feature.product-win32.win32.x86_64.zip -DestinationPath dave-client\releng\com.bmw.dave.client.installer\
+	#cp -Recurse -Force .\dave-client\releng\com.bmw.dave.client.installer\DAVE\* dave-client\releng\com.bmw.dave.client.installer\build-artefacts\DAVE_x64
+	#mvn -f releng/com.bmw.dave.client.installer/pom.xml versions:set "-DnewVersion=21.7.3"; mvn clean package "-Dinstaller.envFile=environment/DEVELOPMENT.INT2" "-Dinstaller.architecture=x86"; 
+	#	moveDaveUpdate;
+	cd $cwd;
+}
+
+function i4jappBuildx86 {
+	param($stage);
+	$cwd = pwd;
+	cd C:\bmwdev\repo\dave;
+	mvn -f com.bmw.dave.root-pom/pom.xml clean install;
+	mvn -f dave-common/pom.xml clean install;
+	mvn -f dave-client/repository/pom.xml clean verify;
+	mvn -f dave-client/pom.xml clean verify -Ddave-environment=$stage;
+	#& "C:\Program Files\install4j9\bin\install4jc.exe" dave-client\releng\com.bmw.dave.client.installer\dave-client-installer-build_x86.install4j -v -D installDirectory=${HOME}\AppData\Roaming -D installStage=INT
+	#cp -Recurse -Force .\dave-client\releng\com.bmw.dave.client.installer\DAVE\* dave-client\releng\installer\dave-client-build-artefacts
+	#& "C:\Program Files\install4j9\bin\install4jc.exe" dave-client\releng\com.bmw.dave.client.installer\dave-client-installer-build_x86_64.install4j -v -D installDirectory=${HOME}\AppData\Roaming -D installStage=INT
+	#mvn -f releng/com.bmw.dave.client.installer/pom.xml clean package
+	cd $cwd;
+}
+
+
+function moveDaveUpdate() {
+	$upddir = "$home/desktop/updates";
+	$mediadir = "C:\bmwdev\repo\dave\dave-client\releng\com.bmw.dave.client.installer/target/media";
+	
+	#rm -recurse -force $upddir/*;
+	cp -recurse $mediadir/* $upddir/;
+}
+
+function moveSpeedUpdate() {
+	$upddir = "$home/desktop/updates";
+	$mediadir = "C:\bmwdev\repo\speed\BMW_Speed_Client_Installer/target/media";
+	
+	#rm -recurse -force $upddir/*;
+	cp -recurse $mediadir/* $upddir/;
+}
+
+function speed() {
+	change-directory-verbose C:\bmwdev\repo\speed\BMW_Speed_Client_Installer
+}
+
+function dave-client-installer() {
+	change-directory-verbose C:\bmwdev\repo\dave\dave-client\releng\com.bmw.dave.client.installer
 }
 
 ###################################################################################################

@@ -1,9 +1,9 @@
 ##################################### GIT CONFIGURATION ###################################
-git config  core.autocrlf true # important for work in unix/win environments
+git config  core.autocrlf false # important for work in unix/win environments
 
 ##################################### ALIASES #############################################
 #sets global aliases for git. CMDs are independet of OS
-git config  alias.lg1 "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all --date=short"
+git config  alias.lg1 "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all --date=short"	
 git config  alias.lg2 "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''%C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 git config  alias.lg "!`"git lg1`""
 git config  alias.log3 "log --pretty=format:'%h %ad | %s%d [%an] %Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --graph --date=short"
