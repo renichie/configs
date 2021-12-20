@@ -22,11 +22,11 @@ function prompt {
     }
  
     if($Script:IsAdmin) {
-        Write-Host "ADMN::" -ForegroundColor Green -BackgroundColor DarkBlue -NoNewline
+        Write-Host "ADMIN::" -ForegroundColor Green -BackgroundColor DarkBlue -NoNewline
     }
  
     Write-Host "$($MyInvocation.HistoryId) " -ForegroundColor DarkBlue -NoNewline
-    Write-Host "$(($path).ToLower().TrimEnd('\')) " -ForegroundColor DarkGreen -NoNewline
+    Write-Host "[$(($path).ToLower().TrimEnd('\'))] " -ForegroundColor DarkGreen -NoNewline
     if ((Write-VcsStatus *>&1).Length -gt 0) {
         Write-Host (Write-VcsStatus) -NoNewline -ForegroundColor DarkGreen
 		Write-Host "$(" " * $NestedPromptLevel)" -NoNewline -ForegroundColor DarkGreen
@@ -86,7 +86,7 @@ function 	scripts()	{ change-directory-verbose "$WORKSPACE\scripts\" }
 function	configs()	{ change-directory-verbose "$HOME\configs\"}
 function 	home() 	{ change-directory-verbose "$HOME"}
 function	ws()	{ change-directory-verbose "$WORKSPACE" }
-function	work()	{ change-directory-verbose "$WORKSPACE\" }
+function	workspace()	{ change-directory-verbose "$WORKSPACE\" }
 function	jenkins	{ change-directory-verbose "$WORKSPACE\audi\jenkins_workflows\" }
 function	..()	{ change-directory-verbose ".." }
 function	...()	{ change-directory-verbose "../.." }
@@ -122,7 +122,7 @@ function	grepr	{ param ($d, $p); Get-ChildItem $d -Recurse * | Select-String -Pa
 function	grepro	{ param ($d, $p); Get-ChildItem $d -Recurse * | Select-String -Pattern $p | Select-Object -Unique Path }
 
 
-# some of those aliases only work in combination with git_aliases.ps1 script, where some of the git cmds are specified
+# some of those aliases only wor in combination with git_aliases.ps1 script, where some of the git cmds are specified
 ###################################################################################################
 ######################################### GIT CMDs/ALIASES ########################################
 ###################################################################################################
