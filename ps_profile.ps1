@@ -1,8 +1,6 @@
 ###################################################################################################
 ######################################## VARIABLES ################################################
 ###################################################################################################
-$KEYFILE_ZAX = "$HOME\.ssh\zax_sshkey"
-$USR_ZAX = "eichinda"
 $STARTING_DIR = "$HOME"
 $WORKSPACE = "$HOME/workspace"
 $CONFIG_DIR = "$HOME/configs"
@@ -24,22 +22,16 @@ function prompt {
     }
  
     if($Script:IsAdmin) {
-        # Write-Host "ADMN::" -ForegroundColor Black -BackgroundColor Green -NoNewline
         Write-Host "ADMN::" -ForegroundColor Green -BackgroundColor DarkBlue -NoNewline
     }
  
-    Write-Host " $($MyInvocation.HistoryId) " -ForegroundColor white -BackgroundColor DarkBlue -NoNewline
-    # Write-Host " | " -ForegroundColor DarkBlue -BackgroundColor Cyan -NoNewline
-    # Write-Host "$([char]0xE0B0)$([char]0xE0B1) " -ForegroundColor DarkBlue -BackgroundColor Cyan -NoNewline
-    Write-Host " $(($path).ToLower().TrimEnd('\')) " -ForegroundColor White -BackgroundColor Cyan -NoNewline
+    Write-Host "$($MyInvocation.HistoryId) " -ForegroundColor DarkBlue -NoNewline
+    Write-Host "$(($path).ToLower().TrimEnd('\')) " -ForegroundColor DarkGreen -NoNewline
     if ((Write-VcsStatus *>&1).Length -gt 0) {
-        # Write-Host "$([char]0xE0B0)$([char]0xE0B1)" -ForegroundColor Cyan -BackgroundColor DarkGray -NoNewline
-        Write-Host (Write-VcsStatus) -NoNewline -BackgroundColor DarkGray
-        # Write-Host "$([char]0xE0B0)$("$([char]0xE0B1)" * $NestedPromptLevel)" -ForegroundColor DarkGray -NoNewline
-		Write-Host "$(" " * $NestedPromptLevel)" -ForegroundColor DarkGray -NoNewline
+        Write-Host (Write-VcsStatus) -NoNewline -ForegroundColor DarkGreen
+		Write-Host "$(" " * $NestedPromptLevel)" -NoNewline -ForegroundColor DarkGreen
     } else {
-		Write-Host "$(" " * $NestedPromptLevel)" -ForegroundColor DarkGray -NoNewline
-        # Write-Host "| *$([char]0xE0B0)$("$([char]0xE0B1)" * $NestedPromptLevel)" -ForegroundColor Cyan -NoNewline
+		Write-Host "$(" " * $NestedPromptLevel)" -NoNewline -ForegroundColor DarkGreen
     }
 	' '
 }
@@ -49,20 +41,10 @@ function prompt {
 ## Tab completion
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineOption -ShowToolTips
- 
-## Colours <-- don't work no more
-#Set-PSReadlineOption -TokenKind Command -ForegroundColor Blue
-#Set-PSReadlineOption -TokenKind Parameter -ForegroundColor DarkBlue
-#Set-PSReadlineOption -TokenKind Comment -ForegroundColor Green
-#Set-PSReadlineOption -TokenKind Operator -ForegroundColor Gray
-#Set-PSReadlineOption -TokenKind Variable -ForegroundColor Magenta
-#Set-PSReadlineOption -TokenKind Keyword -ForegroundColor Magenta
-#Set-PSReadlineOption -TokenKind String -ForegroundColor DarkGray
-#Set-PSReadlineOption -TokenKind Type -ForegroundColor DarkCyan
- 
+
 #AdvancedHistory
-Import-Module AdvancedHistory
-Enable-AdvancedHistory
+#Import-Module AdvancedHistory
+#Enable-AdvancedHistory
 
 Set-PSReadlineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit
 
@@ -132,10 +114,6 @@ function 	rmai()	{ docker rmi $(docker images -q -a) }
 function	rmallc(){ docker rm -f $(docker ps -a -q) }
 function	stopallc() 	{ docker stop $(docker ps -a -q) }
 function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
-function	sshz	{ ssh $USR_ZAX@zax }
-#function	ssht	{ ssh -i $KEYFILE_ZAX $USR_ZAX@zax -Command "~/.tmux_startup.sh" }
-function	scpz	{ param($src, $dest) scp $src $USR_ZAX@zax:$dest } #copy to zax
-function	scpzr	{ param($src, $dest) scp $USR_ZAX@zax:$src $dest } #copy from zax
 function	slog	{ while ($true){ cat .\target\liberty\wlp\usr\servers\defaultServer\logs\console.log; sleep 15 } }
 function	mpackage{ param ($profile); Invoke-Expression "mvn com.spotify:dockerfile-maven-plugin:build -P $profile"; }
 #--> looks for pattern $p in all files contained in folder $d
@@ -154,7 +132,6 @@ set-alias	gs		gst
 function	glg()	{ git lg $args }
 function	glog()	{ git log1 $args }
 function	glb()	{ git log2 $args }
-
 function	gco()	{ git checkout $args }
 set-alias	go		gco
 
@@ -174,19 +151,12 @@ set-alias	gid		git
 
 function	ga()	{ git add $args }
 function	gaa()	{ git add -u $args }
-
 function	gcom()	{ git commit $args }
-
 function	gb()	{ git branch $args }
-
 function	gmt()	{ git mergetool $args }
-
 function	gr()	{ git reset $args }
-
 function	bl()	{ git branch -avv }
-
 function	gdc()	{ git diff --cached $args }
-
 function	gfa()	{ git fetch --all $args }
 function	gca()	{ git commit --amend $args }
 function	gcane()	{ git commit --amend --no-edit $args }
@@ -201,172 +171,6 @@ function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachhe
 	$prev = pwd
 	set-location $dst
 	write-output "$prev --> $dst"
-}
-
-###################################################################################################
-######################################### BMW §§§§§§§§§§§§§########################################
-###################################################################################################
-function resetHeatDbAndRestartServer() {
-	docker stop docker-local_psdb_1; 
-	docker rm docker-local_psdb_1; 
-	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
-	$cwd = pwd;
-	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway;
-	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
-	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway;
-	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
-	
-	cd C:\bmwdev\repo\ps-heat\ps-heat;
-	mvn -Pmicro_ui_tests payara-micro:stop clean package payara-micro:start;
-	cd $cwd;
-}
-
-function resetHeatDb() {
-	docker stop docker-local_psdb_1; 
-	docker rm docker-local_psdb_1; 
-	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
-	$cwd = pwd;
-	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway;
-	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
-	cd $cwd;
-}
-
-function resetTestSetupHeat() {
-	docker stop docker-local_psdb_1; 
-	docker rm docker-local_psdb_1; 
-	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
-	$cwd = pwd;
-	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway;
-	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
-	cd C:\bmwdev\repo\ps-heat\ps-heat;
-	mvn -Pmicro_ui_tests payara-micro:stop clean package payara-micro:start;
-	cd $cwd;
-}
-
-function resetTestSetupHvs() {
-	docker stop docker-local_psdb_1; 
-	docker rm docker-local_psdb_1; 
-	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
-	$cwd = pwd;
-	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway;
-	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;	
-	cd C:\bmwdev\repo\ps-hvs\ps-hvs;
-	mvn -Pmicro_ui_tests payara-micro:stop clean package payara-micro:start;
-	cd $cwd;
-}
-
-function resetHvsDb() {
-	docker stop docker-local_psdb_1; 
-	docker rm docker-local_psdb_1; 
-	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
-	$cwd = pwd;
-	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway;
-	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
-	cd $cwd;
-}
-
-function resetHeatHvsDbs() {
-	docker stop docker-local_psdb_1; 	
-	docker rm docker-local_psdb_1; 
-	docker-compose -f C:\bmwdev\repo\ps-common\ps-common-server\docker-local\docker-compose.yml up -d;
-	$cwd = pwd;
-	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway;
-	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
-	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway;
-	mvn properties:read-project-properties gplus:execute flyway:migrate flyway:info -P LOCAL_SERVER_COMPLETE;
-	cd $cwd;
-}
-
-function updateHeatHvsPSRepos() {
-	$cwd = pwd;
-	cd C:\bmwdev\repo\ps-heat\ps-heat-flyway; 	git pull --rebase;
-	cd C:\bmwdev\repo\ps-heat\ps-heat; 			git pull --rebase;
-	cd C:\bmwdev\repo\ps-hvs\ps-hvs-flyway; 	git pull --rebase;
-	cd C:\bmwdev\repo\ps-common; 				git pull --rebase;
-	cd $cwd;
-}
-
-function stopTestServers() {
-	$cwd = pwd;	
-	cd C:\bmwdev\repo\ps-hvs\ps-hvs;
-	mvn -Pmicro_ui_tests payara-micro:stop;
-	cd C:\bmwdev\repo\ps-heat\ps-heat;
-	mvn -Pmicro_ui_tests payara-micro:stop;
-	cd $cwd;
-}
-
-
-###################################################################################################
-######################################### install4j #############################################
-###################################################################################################
-function i4jCompleteBuild() {
-	$cwd = pwd;
-	cd C:\bmwdev\repo\dave;
-	mvn -f com.bmw.dave.root-pom/pom.xml clean install;
-	mvn -f dave-common/pom.xml clean install;
-	mvn -f dave-client/repository/pom.xml clean verify;
-	mvn -f dave-client/pom.xml clean verify -Ddave-environment=INTEGRATION;
-	Expand-Archive -Force dave-client\releng\com.bmw.dave.client.tycho.product\target\products\com.bmw.dave.client.feature.product-win32.win32.x86_64.zip -DestinationPath dave-client\releng\com.bmw.dave.client.installer\
-	cp -Recurse -Force .\dave-client\releng\com.bmw.dave.client.installer\DAVE\* dave-client\releng\com.bmw.dave.client.installer\dave-client-build-artefacts
-	mvn -f releng/com.bmw.dave.client.installer/pom.xml package
-	#& "C:\Program Files\install4j9\bin\install4jc.exe" dave-client\releng\com.bmw.dave.client.installer\dave-client-installer-build_x86.install4j -v -D installDirectory=${HOME}\AppData\Roaming
-	#& "C:\Program Files\install4j9\bin\install4jc.exe" dave-client\releng\com.bmw.dave.client.installer\dave-client-installer-build_x86_64.install4j -v -D installDirectory=${HOME}\AppData\Roaming
-	cd $cwd;
-}
-
-function i4jappBuildx64 {
-	param($stage);
-	$cwd = pwd;
-	cd C:\bmwdev\repo\dave;
-	mvn -f com.bmw.dave.root-pom/pom.xml clean install;
-	mvn -f dave-common/pom.xml clean install;
-	mvn -f dave-client/repository/pom.xml clean verify;
-	mvn -f dave-client/pom.xml clean verify -Ddave-environment=$stage;
-	#Expand-Archive -Force dave-client\releng\com.bmw.dave.client.tycho.product\target\products\com.bmw.dave.client.feature.product-win32.win32.x86_64.zip -DestinationPath dave-client\releng\com.bmw.dave.client.installer\
-	#cp -Recurse -Force .\dave-client\releng\com.bmw.dave.client.installer\DAVE\* dave-client\releng\com.bmw.dave.client.installer\build-artefacts\DAVE_x64
-	#mvn -f releng/com.bmw.dave.client.installer/pom.xml versions:set "-DnewVersion=21.7.3"; mvn clean package "-Dinstaller.envFile=environment/DEVELOPMENT.INT2" "-Dinstaller.architecture=x86"; 
-	#	moveDaveUpdate;
-	cd $cwd;
-}
-
-function i4jappBuildx86 {
-	param($stage);
-	$cwd = pwd;
-	cd C:\bmwdev\repo\dave;
-	mvn -f com.bmw.dave.root-pom/pom.xml clean install;
-	mvn -f dave-common/pom.xml clean install;
-	mvn -f dave-client/repository/pom.xml clean verify;
-	mvn -f dave-client/pom.xml clean verify -Ddave-environment=$stage;
-	#& "C:\Program Files\install4j9\bin\install4jc.exe" dave-client\releng\com.bmw.dave.client.installer\dave-client-installer-build_x86.install4j -v -D installDirectory=${HOME}\AppData\Roaming -D installStage=INT
-	#cp -Recurse -Force .\dave-client\releng\com.bmw.dave.client.installer\DAVE\* dave-client\releng\installer\dave-client-build-artefacts
-	#& "C:\Program Files\install4j9\bin\install4jc.exe" dave-client\releng\com.bmw.dave.client.installer\dave-client-installer-build_x86_64.install4j -v -D installDirectory=${HOME}\AppData\Roaming -D installStage=INT
-	#mvn -f releng/com.bmw.dave.client.installer/pom.xml clean package
-	cd $cwd;
-}
-
-
-function moveDaveUpdate() {
-	$upddir = "$home/desktop/updates";
-	$mediadir = "C:\bmwdev\repo\dave\dave-client\releng\com.bmw.dave.client.installer/target/media";
-	
-	#rm -recurse -force $upddir/*;
-	cp -recurse $mediadir/* $upddir/;
-}
-
-function moveSpeedUpdate() {
-	$upddir = "$home/desktop/updates";
-	$mediadir = "C:\bmwdev\repo\speed\BMW_Speed_Client_Installer/target/media";
-	
-	#rm -recurse -force $upddir/*;
-	cp -recurse $mediadir/* $upddir/;
-}
-
-function speed() {
-	change-directory-verbose C:\bmwdev\repo\speed\BMW_Speed_Client_Installer
-}
-
-function dave-client-installer() {
-	change-directory-verbose C:\bmwdev\repo\dave\dave-client\releng\com.bmw.dave.client.installer
 }
 
 ###################################################################################################
