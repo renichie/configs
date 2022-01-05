@@ -4,6 +4,7 @@
 $STARTING_DIR = "$HOME"
 $WORKSPACE = "$HOME/workspace"
 $CONFIG_DIR = "$HOME/configs"
+Set-Variable -Name "PREV_DIR" -Value (Get-Location).Path -Scope global
 
 #set-location $STARTING_DIR
 
@@ -16,7 +17,7 @@ if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
  
 function prompt {
     if (((Get-Item $pwd).parent.parent.name)) {
-        $Path = '..\' + (Get-Item $pwd).parent.name + '\' + (Split-Path $pwd -Leaf)
+        $Path = '../' + (Get-Item $pwd).parent.name + '/' + (Split-Path $pwd -Leaf)
     } else {
         $Path = $pwd.path
     }
@@ -43,8 +44,9 @@ Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineOption -ShowToolTips
 
 #AdvancedHistory
-#Import-Module AdvancedHistory
-#Enable-AdvancedHistory
+# Installation via 'Install-Module AdvancedHistory -Scope CurrentUser'
+Import-Module AdvancedHistory
+Enable-AdvancedHistory
 
 Set-PSReadlineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit
 
@@ -66,7 +68,8 @@ function 	ll 			{ Get-ChildItem -Force $args }
 function	less()		{ out-host -paging } #TODO not working <-- needs parameters
 function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $d -name -r" }
 function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
-function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
+function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; } #TODO laden des profils tut irgendiwe noch nicht
+#function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
 function	ahs()		{ cat (Get-PSReadlineOption).HistorySavePath }
 function	hgrep()		{ get-history | grep $args }
 set-alias 	hg			hgrep
@@ -74,15 +77,10 @@ set-alias 	hg			hgrep
 ###################################################################################################
 ######################################### navigation ##############################################
 ###################################################################################################
-function	configs() { change-directory-verbose "$WORKSPACE\configs\" }
-function 	zamfe()	{ change-directory-verbose "$WORKSPACE\audi\zam-frontend\" }
-function 	zaxfe()	{ change-directory-verbose "$WORKSPACE\ZAx\zax-frontend\" }
-function 	zambe()	{ change-directory-verbose "$WORKSPACE\audi\zam-backend\" }
-function 	zaxbe()	{ change-directory-verbose "$WORKSPACE\ZAx\zax-backend\" }
 function 	pb()	{ change-directory-verbose "$WORKSPACE\bmw\primaerbedarfe\" }
 function 	bmwdev()	{ change-directory-verbose "C:\bmwdev\repo" }
 function 	wiki()	{ change-directory-verbose "$WORKSPACE\wiki.wiki\" }
-function 	scripts()	{ change-directory-verbose "$WORKSPACE\scripts\" }
+function 	scripts()	{ change-directory-verbose "$HOME\scripts\" }
 function	configs()	{ change-directory-verbose "$HOME\configs\"}
 function 	home() 	{ change-directory-verbose "$HOME"}
 function	ws()	{ change-directory-verbose "$WORKSPACE" }
@@ -173,8 +171,37 @@ function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachhe
 	write-output "$prev --> $dst"
 }
 
+function	change-directoryAndRememberLast() #mit Ausgabe der Verzeichnisse vorher-nachher
+{
+	param($dst)
+	
+	if($dst -eq "-") {
+		$dst = $PREV_DIR
+	} 
+	if($dst -eq $null) {
+		$dst = $HOME
+	}
+	
+	Set-Variable -Name "PREV_DIR" -Value (Get-Location).Path -Scope global
+	Set-Location $dst
+}
+
+try {
+    Remove-Item alias:\cd
+    set-alias cd change-directoryAndRememberLast
+} catch {
+	echo "catch"
+    set-alias cd change-directoryAndRememberLast
+}
+
+function	sanitizeBookFilenamesInCurrentDir() {
+	ls | Rename-Item -NewName {$_.Name -replace "by", "--"}
+	ls | Rename-Item -NewName {$_.Name -replace "\(z-lib.org\)", ""}
+	ls | Rename-Item -NewName {$_.Name -replace "\ \.", "."}
+}
 ###################################################################################################
 ######################################### USEFUL CMDS #############################################
 ###################################################################################################
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Include ".git" -Recurse
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Filter ".git" -Recurse
+# ls | Rename-Item -NewName {$_.Name -replace "\ \.", "."} ## replace all .... in filenames with ...
