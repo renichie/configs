@@ -26,7 +26,7 @@ function prompt {
     }
  
     Write-Host "$($MyInvocation.HistoryId) " -ForegroundColor DarkBlue -NoNewline
-    Write-Host "[$(($path).ToLower().TrimEnd('\'))]" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "$(($path).ToLower().TrimEnd('\'))" -ForegroundColor DarkGreen -NoNewline
     if ((Write-VcsStatus *>&1).Length -gt 0) {
         Write-Host (Write-VcsStatus) -NoNewline -ForegroundColor DarkGreen
 		Write-Host "$(" " * $NestedPromptLevel)" -NoNewline -ForegroundColor DarkGreen
