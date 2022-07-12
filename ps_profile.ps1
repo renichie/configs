@@ -18,6 +18,8 @@ if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
  
 ################################### OH MY POSH!! ##################################################
 oh-my-posh init pwsh | Invoke-Expression
+Set-PoshPrompt -Theme zash
+
 function prompt {
 	# indirection to prevent AV blockage
 	& ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\jandedobbeleer.omp.json" --print) -join "`n"))
@@ -105,7 +107,7 @@ set-alias 	hg			hgrep
 ###################################################################################################
 ######################################### navigation ##############################################
 ###################################################################################################
-function 	scripts()	{ change-directory-verbose "$WORKSPACE\scripts\" }
+function 	scripts()	{ change-directory-verbose "$HOME\scripts\" }
 function	configs()	{ change-directory-verbose "$HOME\configs\"}
 function 	home() 	{ change-directory-verbose "$HOME"}
 function	ws()	{ change-directory-verbose "$WORKSPACE" }
@@ -114,6 +116,7 @@ function	..()	{ change-directory-verbose ".." }
 function	...()	{ change-directory-verbose "../.." }
 function	....()	{ change-directory-verbose "../../.." }
 set-alias	confs	configs
+function    sdk()   {change-directory-verbose "$WORKSPACE\SDK" }
 
 ###################################################################################################
 ######################################### docker/ZAX specific aliases #############################

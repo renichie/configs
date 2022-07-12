@@ -2,6 +2,14 @@ param($configDir);
 
 Set-PSDebug -Trace 1
 
+######################## SETUP ###################################################################
+# with admin powershell:
+#  Set-ExecutionPolicy -Scope LocalMachine RemoteSigned
+#  find-module -name AdvancedHistory | install-module
+#  find-module -name posh-git | install-module
+
+
+
 #write-output "copying powershell profile to $profile"
 Invoke-Expression "copy-item $configDir/ps_profile.ps1 $profile"
 
