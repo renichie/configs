@@ -44,11 +44,13 @@ parse_git_branch() {
 	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
-PS1='\[\e[33m\]\u' #username
-PS1=$PS1'\[\e[m\]:\[\e[1;34m\]\h' #':host'
-PS1=$PS1'\[\e[m\]:\[\e[1;34m\][\w]' # path
+eval "$(oh-my-posh init bash)"
+
+#PS1='\[\e[33m\]\u' #username
+#PS1=$PS1'\[\e[m\]:\[\e[1;34m\]\h' #':host'
+#PS1=$PS1'\[\e[m\]:\[\e[1;34m\][\w]' # path
 #PS1=$PS1'\[\e[1;30m\]$(parse_git_branch)' #git branch
-PS1=$PS1'\[\e[m\]> ' #prompt
+#PS1=$PS1'\[\e[m\]> ' #prompt
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
