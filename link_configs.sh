@@ -5,6 +5,7 @@ declare -a config_files=(
 	".tmux.conf"
 	".gitconfig"
 	".vimrc"
+	".profile"
 )
 
 mkdir -p ./config_backup
