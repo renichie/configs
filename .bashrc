@@ -33,18 +33,13 @@ fi
 if [ "$TERM" != "dumb" ] && [ -x /usr/bin/dircolors ]; then
     eval "`dircolors -b`"
     alias ls='ls --color=auto'
-    #alias dir='ls --color=auto --format=vertical'
-    #alias vdir='ls --color=auto --format=long'
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
 fi
 
 parse_git_branch() {
 	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
-eval "$(oh-my-posh init bash)"
+eval "$(oh-my-posh init bash --config=$HOME/.configs/config.omp.json)"
 
 #PS1='\[\e[33m\]\u' #username
 #PS1=$PS1'\[\e[m\]:\[\e[1;34m\]\h' #':host'
@@ -65,60 +60,6 @@ alias lr='ls -lash'
 alias la='ls -A'
 alias l='ls -CF'
 
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
-fi
 # Start Docker daemon automatically when logging in if not running.
 RUNNING=`ps aux | grep dockerd | grep -v grep`
 if [ -z "$RUNNING" ]; then
