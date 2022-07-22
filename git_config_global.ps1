@@ -1,5 +1,5 @@
 ##################################### GIT CONFIGURATION ###################################
-git config  core.autocrlf false # important for work in unix/win environments
+# git config  core.autocrlf false # important for work in unix/win environments
 
 ##################################### ALIASES #############################################
 #sets global aliases for git. CMDs are independet of OS

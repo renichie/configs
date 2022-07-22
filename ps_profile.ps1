@@ -22,7 +22,8 @@ Set-PoshPrompt -Theme zash
 
 function prompt {
 	# indirection to prevent AV blockage
-	& ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\jandedobbeleer.omp.json" --print) -join "`n"))
+	& ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$CONFIG_DIR\config.omp.json" --print) -join "`n"))
+# 	& ([ScriptBlock]::Create((oh-my-posh init pwsh --config "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/blue-owl.omp.json" --print) -join "`n"))
 }
  
  
@@ -126,8 +127,6 @@ function 	rmai()	{ docker rmi $(docker images -q -a) }
 function	rmallc(){ docker rm -f $(docker ps -a -q) }
 function	stopallc() 	{ docker stop $(docker ps -a -q) }
 function	sshdock	{ param ($a); docker exec -it $a /bin/bash }
-#function	scpz	{ param($src, $dest) scp $src $USR_ZAX@zax:$dest } #copy to zax
-#function	scpzr	{ param($src, $dest) scp $USR_ZAX@zax:$src $dest } #copy from zax
 #--> looks for pattern $p in all files contained in folder $d
 function	grepr	{ param ($d, $p); Get-ChildItem $d -Recurse * | Select-String -Pattern "$p" }
 #--> looks for pattern $p in all files contained in folder $d and gives out only the file location in which the pattern is found
