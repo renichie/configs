@@ -13,19 +13,19 @@ set si "setzt smart indent
 noremap j h
 noremap k j
 noremap l k
-noremap ö l
+noremap ï¿½ l
 noremap ; l
 
 nnoremap j h
 nnoremap k j
 nnoremap l k
-nnoremap ö l
+nnoremap ï¿½ l
 nnoremap ; l
 
 vnoremap j h
 vnoremap k j
 vnoremap l k
-vnoremap ö l
+vnoremap ï¿½ l
 vnoremap ; l
 
 "===========================tab navigation======================================
@@ -50,3 +50,5 @@ cnoreabbrev <expr> te getcmdtype() == ":" && getcmdline() == 'te' ? 'tabedit' : 
 
 "=========================== search visually selected text ========================
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+unmap <C-b>
