@@ -18,14 +18,13 @@ if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
  
 ################################### OH MY POSH!! ##################################################
 oh-my-posh init pwsh | Invoke-Expression
-Set-PoshPrompt -Theme zash
 
 function prompt {
 	# indirection to prevent AV blockage
 	& ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$CONFIG_DIR\config.omp.json" --print) -join "`n"))
-# 	& ([ScriptBlock]::Create((oh-my-posh init pwsh --config "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/blue-owl.omp.json" --print) -join "`n"))
 }
- 
+
+. $CONFIG_DIR/kubectl-autocomplete.ps1
  
 # old custom powershell prompt
 # it's a keeper!!
@@ -92,6 +91,7 @@ set-alias 	run 	Invoke-History   # usage: run <cmd_id>
 set-alias	hs		get-history
 set-alias	open	invoke-item
 set-alias	c		clear-host
+set-alias   k       kubectl
 
 ###################################################################################################
 ######################################## Function Aliases #########################################
@@ -118,9 +118,10 @@ function	...()	{ change-directory-verbose "../.." }
 function	....()	{ change-directory-verbose "../../.." }
 set-alias	confs	configs
 function    sdk()   {change-directory-verbose "$WORKSPACE\SDK" }
+function    sdkfe() {change-directory-verbose "$WORKSPACE\SDK\sdk-frontend" }
 
 ###################################################################################################
-######################################### docker/ZAX specific aliases #############################
+######################################### docker aliases #############################
 ###################################################################################################
 #function	go()	{ $cmd = "mvn"; $prms = "clean install"; write-output "Invoking `"$cmd $prms`""; Invoke-Expression "$cmd $prms" }
 function 	rmai()	{ docker rmi $(docker images -q -a) }
@@ -160,19 +161,12 @@ set-alias	gid		git
 
 function	ga()	{ git add $args }
 function	gaa()	{ git add -u $args }
-
 function	gcom()	{ git commit $args }
-
 function	gb()	{ git branch $args }
-
 function	gmt()	{ git mergetool $args }
-
 function	gr()	{ git reset $args }
-
 function	bl()	{ git branch -avv }
-
 function	gdc()	{ git diff --cached $args }
-
 function	gfa()	{ git fetch --all $args }
 function	gca()	{ git commit --amend $args }
 function	gcane()	{ git commit --amend --no-edit $args }
@@ -194,3 +188,4 @@ function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachhe
 ###################################################################################################
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Include ".git" -Recurse
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Filter ".git" -Recurse
+function goAdmin() {Start-Process powershell -Verb RunAs}
