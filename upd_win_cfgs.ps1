@@ -1,36 +1,33 @@
 param($configDir);
 
-Set-PSDebug -Trace 1
+#Set-PSDebug -Trace 1
 
-######################## SETUP ###################################################################
+######################## SETUP (one time) ###################################################################
 # with admin powershell:
 #  Set-ExecutionPolicy -Scope LocalMachine RemoteSigned
 #  find-module -name AdvancedHistory | install-module
 #  find-module -name posh-git | install-module
 
-
-
 #write-output "copying powershell profile to $profile"
 Invoke-Expression "copy-item $configDir/ps_profile.ps1 $profile"
 
+######################################## copy vim configuration ###################################################
+Write-Output "copying vimrc files..."
 Invoke-Expression "copy-item $configDir/.vimrc $HOME/_vimrc"
-# Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
-
-Invoke-Expression "copy-item $configDir/.vimrc $HOME/_vimrc"
-#Invoke-Expression "copy-item $configDir/.vimrc H:\_vimrc"
-
+Invoke-Expression "copy-item $configDir/.vimrc $HOME/.vimrc"
 Invoke-Expression "copy-item $configDir/.vimrc $HOME/_ideavimrc"
-#copy-item .vimrc $HOME/.vimrc
-#copy-item .vimrc $HOME/.vimrc
+
+######################################## copy vim configuration ###################################################
+Write-Output "copying git config files..."
+Invoke-Expression "copy-item $configDir/.gitconfig_global $HOME/.gitconfig"
+#Invoke-Expression "copy-item $configDir/.gitconfig.work.sdk $HOME/.gitconfig.work.sdk"
+Invoke-Expression "copy-item $configDir/.gitignore_global $HOME/.gitignore_global"
 
 #echo "source $HOME/.vimrc" > $HOME/.ideavimrc
 
 #write-output "copying posh-git profile to C:\Program Files\WindowsPowerShell\Modules\posh-git\0.7.3\GitPrompt.ps1"
 #copy-item pwsh_profile.ps1 "C:\Program Files\WindowsPowerShell\Modules\posh-git\0.7.3\GitPrompt.ps1"
 
-#setting GIT aliases	
-Invoke-Expression "$configDir/git_config_global.ps1"
-
 .$profile
 
-Set-PSDebug -Trace 0
+#Set-PSDebug -Trace 0

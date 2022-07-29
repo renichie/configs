@@ -8,6 +8,7 @@ colo delek
 set tabstop=4
 set ai "setzt autoindent
 set si "setzt smart indent
+colorscheme desert
 
 "===========================remapping keys======================================
 noremap j h

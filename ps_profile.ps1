@@ -101,7 +101,7 @@ function	less()		{ out-host -paging } #TODO not working <-- needs parameters
 function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $d -name -r" }
 function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
 function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
-function	ahs()		{ cat (Get-PSReadlineOption).HistorySavePath }
+function	ahs()		{ Get-Content (Get-PSReadlineOption).HistorySavePath }
 function	hgrep()		{ get-history | grep $args }
 set-alias 	hg			hgrep
 
@@ -119,6 +119,7 @@ function	....()	{ change-directory-verbose "../../.." }
 set-alias	confs	configs
 function    sdk()   {change-directory-verbose "$WORKSPACE\SDK" }
 function    sdkfe() {change-directory-verbose "$WORKSPACE\SDK\sdk-frontend" }
+function	curProj() 	{change-directory-verbose "$WORKSPACE\SDK\analyze-prototypes\openlabel" }
 
 ###################################################################################################
 ######################################### docker aliases #############################
@@ -177,6 +178,7 @@ function	gcane()	{ git commit --amend --no-edit $args }
 ###################################################################################################
 function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachher
 {
+#	Set-Location
 	param($dst)
 	$prev = pwd
 	set-location $dst
