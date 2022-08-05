@@ -15,7 +15,7 @@ $CONFIG_DIR = "$HOME/configs"
 Import-Module Posh-Git
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { $Script:IsAdmin = $true }
- 
+
 ################################### OH MY POSH!! ##################################################
 oh-my-posh init pwsh | Invoke-Expression
 
@@ -25,7 +25,7 @@ function prompt {
 }
 
 . $CONFIG_DIR/kubectl-autocomplete.ps1
- 
+
 # old custom powershell prompt
 # it's a keeper!!
  <#
@@ -64,7 +64,7 @@ function prompt {
 ## Tab completion
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineOption -ShowToolTips
- 
+
 ## Colours <-- don't work no more
 #Set-PSReadlineOption -TokenKind Command -ForegroundColor Blue
 #Set-PSReadlineOption -TokenKind Parameter -ForegroundColor DarkBlue
@@ -74,7 +74,7 @@ Set-PSReadlineOption -ShowToolTips
 #Set-PSReadlineOption -TokenKind Keyword -ForegroundColor Magenta
 #Set-PSReadlineOption -TokenKind String -ForegroundColor DarkGray
 #Set-PSReadlineOption -TokenKind Type -ForegroundColor DarkCyan
- 
+
 #AdvancedHistory
 Import-Module AdvancedHistory
 Enable-AdvancedHistory
@@ -92,6 +92,8 @@ set-alias	hs		get-history
 set-alias	open	invoke-item
 set-alias	c		clear-host
 set-alias   k       kubectl
+#TODO make work
+function    less()	{ out-host -paging $args }
 
 ###################################################################################################
 ######################################## Function Aliases #########################################
@@ -100,7 +102,7 @@ function 	ll 			{ Get-ChildItem -Force $args }
 function	less()		{ out-host -paging } #TODO not working <-- needs parameters
 function	ff()		{ param($d); if(!$d) { $d="." }; Invoke-Expression "find $d -name -r" }
 function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep $p" }
-function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; .$profile; } #TODO laden des profils tut irgendiwe noch nicht
+function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; <# .$profile; #> } #TODO laden des profils tut irgendiwe noch nicht
 function	ahs()		{ Get-Content (Get-PSReadlineOption).HistorySavePath }
 function	hgrep()		{ get-history | grep $args }
 set-alias 	hg			hgrep
@@ -120,6 +122,8 @@ set-alias	confs	configs
 function    sdk()   {change-directory-verbose "$WORKSPACE\SDK" }
 function    sdkfe() {change-directory-verbose "$WORKSPACE\SDK\sdk-frontend" }
 function	curProj() 	{change-directory-verbose "$WORKSPACE\SDK\analyze-prototypes\openlabel" }
+function	dataFolder()	{ change-directory-verbose "$WORKSPACE\data" }
+function	curData()	{ change-directory-verbose "$WORKSPACE\data\1404" }
 
 ###################################################################################################
 ######################################### docker aliases #############################
@@ -191,3 +195,5 @@ function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachhe
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Include ".git" -Recurse
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Filter ".git" -Recurse
 function goAdmin() {Start-Process powershell -Verb RunAs}
+
+function test() {echo "test"}

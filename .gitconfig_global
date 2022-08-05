@@ -28,16 +28,14 @@
 	editor = vim
 	excludesFile = ~/.gitignore_global
 
+[user]
+    name = David Eichiner
+    email = david.eichiner@efs-auto.com
+
 # https://git-scm.com/docs/git-config#_includes
-[includeIf "gitdir:**/SDK/**"]
-    path = $HOME/configs/.gitconfig.work.sdk
+#[includeIf "gitdir:**/SDK/**"]
+#    path = $HOME/configs/.gitconfig.work.sdk
 
-[includeIf "gitdir:**/configs/"]
-	[user]
-    	name = renichie
-    	email = david.eichiner@posteo.de
+[commit]
+        template = ~/.gitmessage
 
-[includeIf "gitdir/i: C:\Users\UB422\workspace\SDK\accessmanager"]
-	[user]
-    	name = djfuyckoff
-    	email = david.eichiner@posteo.de

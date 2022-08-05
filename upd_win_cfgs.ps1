@@ -8,8 +8,11 @@ param($configDir);
 #  find-module -name AdvancedHistory | install-module
 #  find-module -name posh-git | install-module
 
+######################## SETTING ENVIRONMENT ###################################################################
+#$PROFILE = "$HOME\.ps_profile.ps1"
+
 #write-output "copying powershell profile to $profile"
-Invoke-Expression "copy-item $configDir/ps_profile.ps1 $profile"
+Invoke-Expression "copy-item $configDir\ps_profile.ps1 $profile"
 
 ######################################## copy vim configuration ###################################################
 Write-Output "copying vimrc files..."
@@ -28,6 +31,6 @@ Invoke-Expression "copy-item $configDir/.gitignore_global $HOME/.gitignore_globa
 #write-output "copying posh-git profile to C:\Program Files\WindowsPowerShell\Modules\posh-git\0.7.3\GitPrompt.ps1"
 #copy-item pwsh_profile.ps1 "C:\Program Files\WindowsPowerShell\Modules\posh-git\0.7.3\GitPrompt.ps1"
 
-.$profile
+#.$profile
 
 #Set-PSDebug -Trace 0
