@@ -1,3 +1,9 @@
 *.iml
 
 docker-local
+
+**.mat
+
+out/
+
+**main-local*

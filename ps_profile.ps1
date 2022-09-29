@@ -120,10 +120,14 @@ function	...()	{ change-directory-verbose "../.." }
 function	....()	{ change-directory-verbose "../../.." }
 set-alias	confs	configs
 function    sdk()   {change-directory-verbose "$WORKSPACE\SDK" }
+function    worfklows()   {change-directory-verbose "$WORKSPACE\sdk-workflows" }
 function    sdkfe() {change-directory-verbose "$WORKSPACE\SDK\sdk-frontend" }
-function	curProj() 	{change-directory-verbose "$WORKSPACE\SDK\analyze-prototypes\openlabel" }
 function	dataFolder()	{ change-directory-verbose "$WORKSPACE\data" }
 function	curData()	{ change-directory-verbose "$WORKSPACE\data\1404" }
+function	workflows()	{ change-directory-verbose "$WORKSPACE\sdk-workflows" }
+function	aicloud()	{ change-directory-verbose "$WORKSPACE\sdk-workflows-aicloud\aicloud"}
+function	nqyer()		{ change-directory-verbose "$WORKSPACE\sdk-workflows\nqyer-cron-workflow"}
+function	curProj() 	{change-directory-verbose "$WORKSPACE\SDK\storage-manager"}
 
 ###################################################################################################
 ######################################### docker aliases #############################
@@ -152,6 +156,17 @@ function	gco()	{ git checkout $args }
 set-alias	go		gco
 function	gsh		{ git show $args }
 
+function fetch-all-subdirs()	{
+	$initpath = Get-Location
+	foreach($path in Get-ChildItem) {
+		if ($path.Attributes -eq "Directory") {
+			Set-Location $path.FullName
+			git fetch --all
+		}
+	}
+	Set-Location $initpath
+}
+
 # maybe, just maybe a little bit too much
 set-alias	got		git
 set-alias	get 	git
@@ -176,6 +191,8 @@ function	gfa()	{ git fetch --all $args }
 function	gca()	{ git commit --amend $args }
 function	gcane()	{ git commit --amend --no-edit $args }
 
+function 	gfpcd()	{ git add -u; git commit --amend --no-edit; git push -f; }
+
 
 ###################################################################################################
 ######################################### HELPER FUNCTIONS ########################################
@@ -195,5 +212,3 @@ function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachhe
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Include ".git" -Recurse
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Filter ".git" -Recurse
 function goAdmin() {Start-Process powershell -Verb RunAs}
-
-function test() {echo "test"}

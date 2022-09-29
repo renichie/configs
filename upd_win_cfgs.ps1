@@ -25,6 +25,7 @@ Write-Output "copying git config files..."
 Invoke-Expression "copy-item $configDir/.gitconfig_global $HOME/.gitconfig"
 #Invoke-Expression "copy-item $configDir/.gitconfig.work.sdk $HOME/.gitconfig.work.sdk"
 Invoke-Expression "copy-item $configDir/.gitignore_global $HOME/.gitignore_global"
+Invoke-Expression "copy-item $configDir/.gitmessage $HOME/.gitmessage"
 
 #echo "source $HOME/.vimrc" > $HOME/.ideavimrc
 

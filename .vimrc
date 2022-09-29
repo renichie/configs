@@ -14,20 +14,8 @@ colorscheme desert
 noremap j h
 noremap k j
 noremap l k
-noremap � l
+noremap ä l
 noremap ; l
-
-nnoremap j h
-nnoremap k j
-nnoremap l k
-nnoremap � l
-nnoremap ; l
-
-vnoremap j h
-vnoremap k j
-vnoremap l k
-vnoremap � l
-vnoremap ; l
 
 "===========================tab navigation======================================
 nnoremap <C-Left> :tabprevious<CR>                                                                            
@@ -52,4 +40,4 @@ cnoreabbrev <expr> te getcmdtype() == ":" && getcmdline() == 'te' ? 'tabedit' : 
 "=========================== search visually selected text ========================
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-unmap <C-b>
+"unmap <C-b>
