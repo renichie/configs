@@ -14,7 +14,7 @@ colorscheme desert
 noremap j h
 noremap k j
 noremap l k
-noremap ä l
+noremap ö l
 noremap ; l
 
 "===========================tab navigation======================================

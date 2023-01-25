@@ -6,4 +6,12 @@ docker-local
 
 out/
 
+**local*
 **main-local*
+**delete-roles-*.py
+
+.idea
+.gradle
+
+# tmp files from gnu/unix applications
+**~

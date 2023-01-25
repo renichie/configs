@@ -1,11 +1,10 @@
 ###################################################################################################
 ######################################## VARIABLES ################################################
 ###################################################################################################
-$KEYFILE_ZAX = "$HOME\.ssh\zax_sshkey"
-$USR_ZAX = "eichinda"
 $STARTING_DIR = "$HOME"
 $WORKSPACE = "$HOME/workspace"
 $CONFIG_DIR = "$HOME/configs"
+$env:KUBE_EDITOR= "vim"
 
 #set-location $STARTING_DIR
 
@@ -121,13 +120,13 @@ function	....()	{ change-directory-verbose "../../.." }
 set-alias	confs	configs
 function    sdk()   {change-directory-verbose "$WORKSPACE\SDK" }
 function    worfklows()   {change-directory-verbose "$WORKSPACE\sdk-workflows" }
-function    sdkfe() {change-directory-verbose "$WORKSPACE\SDK\sdk-frontend" }
+function    sdkfe() {change-directory-verbose "$WORKSPACE\SDK\e-fs-frontends" }
 function	dataFolder()	{ change-directory-verbose "$WORKSPACE\data" }
 function	curData()	{ change-directory-verbose "$WORKSPACE\data\1404" }
 function	workflows()	{ change-directory-verbose "$WORKSPACE\sdk-workflows" }
 function	aicloud()	{ change-directory-verbose "$WORKSPACE\sdk-workflows-aicloud\aicloud"}
 function	nqyer()		{ change-directory-verbose "$WORKSPACE\sdk-workflows\nqyer-cron-workflow"}
-function	curProj() 	{change-directory-verbose "$WORKSPACE\SDK\storage-manager"}
+function	curProj() 	{change-directory-verbose "$WORKSPACE\SDK\sdk-api-wrapper"}
 
 ###################################################################################################
 ######################################### docker aliases #############################
