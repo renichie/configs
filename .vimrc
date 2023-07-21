@@ -2,9 +2,9 @@
 set noswapfile
 set number
 set mouse=a
-syntax on
-set clipboard=unnamedplus
-colo delek
+"syntax on
+set clipboard=unnamed
+"colo delek
 set tabstop=4
 set ai "setzt autoindent
 set si "setzt smart indent
