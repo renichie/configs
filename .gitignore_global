@@ -1,4 +1,4 @@
-*.iml
+**.iml
 
 docker-local
 
@@ -9,9 +9,18 @@ out/
 **local*
 **main-local*
 **delete-roles-*.py
+**local.*
 
 .idea
 .gradle
 
 # tmp files from gnu/unix applications
 **~
+
+
+# specific files
+**jupyterhub-values-changed-only.yaml
+**/infrastructure/jupyterhub/**
+C:\Users\UB422\workspace\SDK\infrastructure\jupyterhub
+
+**node_modules**

@@ -41,3 +41,8 @@ cnoreabbrev <expr> te getcmdtype() == ":" && getcmdline() == 'te' ? 'tabedit' : 
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 "unmap <C-b>
+
+"=========================== plugins ===============================================
+call plug#begin()
+Plug 'https://github.com/sainnhe/everforest'
+call plug#end()

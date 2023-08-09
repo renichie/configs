@@ -81,6 +81,13 @@
       "segments": [
         {
           "background": "#29315A",
+          "foreground": "#FAB795",
+          "style": "plain",
+          "template": "<transparent> \ue272 </>{{ execCmd \"kubectl config current-context\" | trim }}",
+          "type": "connection"
+        },
+        {
+          "background": "#29315A",
           "foreground": "#43CCEA",
           "leading_diamond": "\ue0c5",
           "style": "diamond",

@@ -1,3 +1,4 @@
+# cmds auslagern
 ###################################################################################################
 ######################################## VARIABLES ################################################
 ###################################################################################################
@@ -93,6 +94,7 @@ set-alias	c		clear-host
 set-alias   k       kubectl
 #TODO make work
 function    less()	{ out-host -paging $args }
+Set-Alias	tf_0_14_11		"C:\Users\UB422\software\terraform\terraform_0.14.11\terraform.exe"
 
 ###################################################################################################
 ######################################## Function Aliases #########################################
@@ -104,6 +106,7 @@ function	ffs()		{ param($d=".", $p); Invoke-Expression "find $d -name -r | grep 
 function	updcs()		{ Invoke-Expression "$CONFIG_DIR/upd_win_cfgs.ps1 $CONFIG_DIR"; <# .$profile; #> } #TODO laden des profils tut irgendiwe noch nicht
 function	ahs()		{ Get-Content (Get-PSReadlineOption).HistorySavePath }
 function	hgrep()		{ get-history | grep $args }
+function	terraformer() { C:\Users\UB422\software\terraformer\terraformer-all-windows-amd64.exe $args; }
 set-alias 	hg			hgrep
 
 ###################################################################################################
@@ -118,7 +121,7 @@ function	..()	{ change-directory-verbose ".." }
 function	...()	{ change-directory-verbose "../.." }
 function	....()	{ change-directory-verbose "../../.." }
 set-alias	confs	configs
-function    sdk()   {change-directory-verbose "$WORKSPACE\SDK" }
+function    sdkdir()   {change-directory-verbose "$WORKSPACE\SDK" }
 function    worfklows()   {change-directory-verbose "$WORKSPACE\sdk-workflows" }
 function    sdkfe() {change-directory-verbose "$WORKSPACE\SDK\e-fs-frontends" }
 function	dataFolder()	{ change-directory-verbose "$WORKSPACE\data" }
@@ -126,7 +129,9 @@ function	curData()	{ change-directory-verbose "$WORKSPACE\data\1404" }
 function	workflows()	{ change-directory-verbose "$WORKSPACE\sdk-workflows" }
 function	aicloud()	{ change-directory-verbose "$WORKSPACE\sdk-workflows-aicloud\aicloud"}
 function	nqyer()		{ change-directory-verbose "$WORKSPACE\sdk-workflows\nqyer-cron-workflow"}
-function	curProj() 	{change-directory-verbose "$WORKSPACE\SDK\sdk-api-wrapper"}
+function	current() 	{change-directory-verbose "$WORKSPACE\SDK\organizationmanager"}
+function	sdkclient()	{change-directory-verbose "$WORKSPACE\SDK\sdk-client\python"}
+function	sdkutil()	{change-directory-verbose "$WORKSPACE\SDK\helper-collection"}
 
 ###################################################################################################
 ######################################### docker aliases #############################
@@ -149,6 +154,7 @@ function	grepro	{ param ($d, $p); Get-ChildItem $d -Recurse * | Select-String -P
 function	gst()	{ git status $args }
 set-alias	gs		gst
 function	glg()	{ git lg $args }
+function	glga()	{ git lg2 $args }
 function	glog()	{ git log1 $args }
 function	glb()	{ git log2 $args }
 function	gco()	{ git checkout $args }
@@ -185,12 +191,31 @@ function	gb()	{ git branch $args }
 function	gmt()	{ git mergetool $args }
 function	gr()	{ git reset $args }
 function	bl()	{ git branch -avv }
+function	blt()    {
+	# Fetch the data from git
+	$gitOutput = git for-each-ref --sort= -committerdate refs/heads/ refs/remotes/ --format = '%(committerdate:short) %(refname:short)'
+
+	# Split the output into lines
+	$lines = $gitOutput -split "`n"
+
+	# For each line, split into date and branch, then colorize the output
+	foreach ($line in $lines) {
+		$parts = $line -split ' ', 2
+		Write-Host -NoNewline -ForegroundColor Cyan $parts[0]
+		Write-Host -NoNewline ' '
+		Write-Host -ForegroundColor Yellow $parts[1]
+		Write-Host ''
+	}
+}
+
+
 function	gdc()	{ git diff --cached $args }
 function	gfa()	{ git fetch --all $args }
 function	gca()	{ git commit --amend $args }
 function	gcane()	{ git commit --amend --no-edit $args }
 
 function 	gfpcd()	{ git add -u; git commit --amend --no-edit; git push -f; }
+function    upstream-push { git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD) }
 
 
 ###################################################################################################
@@ -211,3 +236,23 @@ function	change-directory-verbose() #mit Ausgabe der Verzeichnisse vorher-nachhe
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Include ".git" -Recurse
 #Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Filter ".git" -Recurse
 function goAdmin() {Start-Process powershell -Verb RunAs}
+
+function Git-Pull-All-Subdirs() {
+	# Get all subdirectories in the current directory
+	$subfolders = Get-ChildItem -Directory
+	foreach ($folder in $subfolders) {
+		# Check if the .git folder exists inside the subfolder
+		if (Test-Path "$($folder.FullName)\.git") {
+			Write-Host "Pulling $($folder.Name)"
+
+			# Change to the subfolder directory
+			Set-Location $folder.FullName
+
+			# Execute git pull
+			git pull
+
+			# Change back to the original directory
+			Set-Location ..
+		}
+	}
+}
