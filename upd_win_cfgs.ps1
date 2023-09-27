@@ -13,6 +13,8 @@ param($configDir);
 
 #write-output "copying powershell profile to $profile"
 Invoke-Expression "copy-item $configDir\ps_profile.ps1 $profile"
+# add util-cmds.ps1
+Add-Content -Path $profile -Value (Get-Content -Path $configDir\util-cmds.ps1 -Raw)
 
 ######################################## copy vim configuration ###################################################
 Write-Output "copying vimrc files..."
