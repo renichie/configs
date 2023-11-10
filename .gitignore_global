@@ -6,10 +6,10 @@ docker-local
 
 out/
 
-**local*
+# **local*
 **main-local*
 **delete-roles-*.py
-**local.*
+# **local.*
 
 .idea
 .gradle

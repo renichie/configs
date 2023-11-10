@@ -19,28 +19,21 @@ if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
 ################################### OH MY POSH!! ##################################################
 oh-my-posh init pwsh | Invoke-Expression
 
-function prompt {
-	# indirection to prevent AV blockage
-	& ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$CONFIG_DIR\config.omp.json" --print) -join "`n"))
-}
-
-. $CONFIG_DIR/kubectl-autocomplete.ps1
-
 # old custom powershell prompt
 # it's a keeper!!
- <#
+<#
 function prompt {
     if (((Get-Item $pwd).parent.parent.name)) {
         $Path = '..\' + (Get-Item $pwd).parent.name + '\' + (Split-Path $pwd -Leaf)
     } else {
         $Path = $pwd.path
     }
- 
+
     if($Script:IsAdmin) {
         # Write-Host "ADMN::" -ForegroundColor Black -BackgroundColor Green -NoNewline
         Write-Host "ADMN::" -ForegroundColor Green -BackgroundColor DarkBlue -NoNewline
     }
- 
+
     Write-Host " $($MyInvocation.HistoryId) " -ForegroundColor white -BackgroundColor DarkBlue -NoNewline
     # Write-Host " | " -ForegroundColor DarkBlue -BackgroundColor Cyan -NoNewline
     # Write-Host "$([char]0xE0B0)$([char]0xE0B1) " -ForegroundColor DarkBlue -BackgroundColor Cyan -NoNewline
@@ -58,28 +51,33 @@ function prompt {
 }
 #>
 
+function prompt {
+	# indirection to prevent AV blockage
+	& ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$CONFIG_DIR\config.omp.json" --print) -join "`n"))
+}
+
+###################################################################################################
+################################################## Auto-completions ###############################
+###################################################################################################
+. $CONFIG_DIR/kubectl-autocomplete.ps1
+. $CONFIG_DIR/flux-autocomplete.ps1
+
 ###################################################################################################
 ########################################## Readline options #######################################
 ###################################################################################################
 ## Tab completion
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineOption -ShowToolTips
-
-## Colours <-- don't work no more
-#Set-PSReadlineOption -TokenKind Command -ForegroundColor Blue
-#Set-PSReadlineOption -TokenKind Parameter -ForegroundColor DarkBlue
-#Set-PSReadlineOption -TokenKind Comment -ForegroundColor Green
-#Set-PSReadlineOption -TokenKind Operator -ForegroundColor Gray
-#Set-PSReadlineOption -TokenKind Variable -ForegroundColor Magenta
-#Set-PSReadlineOption -TokenKind Keyword -ForegroundColor Magenta
-#Set-PSReadlineOption -TokenKind String -ForegroundColor DarkGray
-#Set-PSReadlineOption -TokenKind Type -ForegroundColor DarkCyan
+Set-PSReadLineOption -PredictionSource HistoryAndPlugin -PredictionViewStyle ListView
 
 #AdvancedHistory
 Import-Module AdvancedHistory
 Enable-AdvancedHistory
 
 Set-PSReadlineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit
+
+# enable fzf reverse history and files
+Set-PsFzfOption -PSReadLineChordProvider ‘Ctrl+f’ -PSReadLineChordReverseHistory ‘Ctrl+r’
 
 ###################################################################################################
 ######################################## GENERAL ALIASES ##########################################
