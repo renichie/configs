@@ -1,4 +1,6 @@
 **.iml
+*.csv
+*local*.py
 
 docker-local
 
@@ -6,10 +8,19 @@ docker-local
 
 out/
 
-# **local*
+# local config / env files
+**local*.yml
+**local*.properties
+!**application-local-template.yml
 **main-local*
 **delete-roles-*.py
-# **local.*
+**docker*env
+**local/
+**plan*txt
+
+# security
+**ssh*key*
+
 
 .idea
 .gradle
@@ -22,5 +33,6 @@ out/
 **jupyterhub-values-changed-only.yaml
 **/infrastructure/jupyterhub/**
 C:\Users\UB422\workspace\SDK\infrastructure\jupyterhub
+nqyerx-cron-workflow/**local*
 
 **node_modules**

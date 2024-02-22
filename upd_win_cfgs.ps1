@@ -33,7 +33,7 @@ Invoke-Expression "copy-item $configDir/.gitmessage $HOME/.gitmessage"
 Write-Output "copying k9s config files..."
 $K9S_CONFIG_DIR="$HOME\AppData\Local\k9s"
 # copy skins
-Invoke-Expression "copy-item $configDir/k9s/* $K9S_CONFIG_DIR"
+Invoke-Expression "copy-item -Recurse -Force $configDir/k9s/* $K9S_CONFIG_DIR"
 
 #echo "source $HOME/.vimrc" > $HOME/.ideavimrc
 

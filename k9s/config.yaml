@@ -1,0 +1,16 @@
+# https://k9scli.io/topics/config/
+k9s:
+  ui:
+    skin: default
+  # Enable periodic refresh of resource browser windows. Default false
+  liveViewAutoRefresh: false
+  # Represents ui poll intervals. Default 2secs
+  refreshRate: 1
+  # Global memory/cpu thresholds. When set will alert when thresholds are met.
+  thresholds:
+    cpu:
+      critical: 95
+      warn: 85
+    memory:
+      critical: 95
+      warn: 85
