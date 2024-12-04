@@ -120,6 +120,8 @@ function	...()	{ change-directory-verbose "../.." }
 function	....()	{ change-directory-verbose "../../.." }
 set-alias	confs	configs
 function    sdkdir()   {change-directory-verbose "$WORKSPACE\SDK" }
+function    sdkconfig()   {change-directory-verbose "$WORKSPACE\SDK\sdk-config" }
+function    sdkui()   {change-directory-verbose "$WORKSPACE\SDK\ui" }
 function    worfklows()   {change-directory-verbose "$WORKSPACE\sdk-workflows" }
 function    sdkfe() {change-directory-verbose "$WORKSPACE\SDK\e-fs-frontends" }
 function	dataFolder()	{ change-directory-verbose "$WORKSPACE\data" }
@@ -155,8 +157,6 @@ function	glg()	{ git lg $args }
 function	glga()	{ git lg2 $args }
 function	glog()	{ git log1 $args }
 function	glb()	{ git log2 $args }
-function	gco()	{ git checkout $args }
-set-alias	go		gco
 function	gsh		{ git show $args }
 
 function fetch-all-subdirs()	{
@@ -253,4 +253,34 @@ function Git-Pull-All-Subdirs() {
 			Set-Location ..
 		}
 	}
+}
+
+
+function Convert-LineEndingsToLF {
+param (
+[Parameter(Mandatory = $true)]
+[string]$directoryPath
+)
+
+# Helper function to convert file line endings to LF
+function Convert-ToLF {
+param([string]$filePath)
+
+# Read the file's content and replace CRLF with LF
+(Get-Content $filePath -Raw).Replace("`r`n", "`n") | Set-Content -NoNewline $filePath
+}
+
+# Check if the directory exists
+if (Test-Path $directoryPath) {
+# Get all .txt files in the directory recursively
+$files = Get-ChildItem -Path $directoryPath -Recurse
+
+# Convert each file's line endings
+foreach ($file in $files) {
+Convert-ToLF $file.FullName
+}
+Write-Host "All .txt files in $directoryPath have been converted to LF line endings."
+} else {
+Write-Host "Directory does not exist: $directoryPath"
+}
 }

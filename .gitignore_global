@@ -5,6 +5,7 @@
 docker-local
 
 **.mat
+**.tgz
 
 out/
 
@@ -17,12 +18,17 @@ out/
 **docker*env
 **local/
 **plan*txt
+**preview.yaml
+**.env
 
 # security
 **ssh*key*
 
+**.vite
+**tsbuildinfo
 
 .idea
+**.iml
 .gradle
 
 # tmp files from gnu/unix applications
